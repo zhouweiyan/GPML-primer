@@ -4,7 +4,7 @@
 %% 定义遗传算法参数
 N=3;            %待优化的变量的个数,分别为ell,sf,sn
 NIND=40;        %个体数目
-MAXGEN=3;       %最大遗传代数
+MAXGEN=1;       %最大遗传代数
 PRECI=10;       %变量的二进制位数
 GGAP=0.95;      %代沟
 px=0.7;         %交叉概率
@@ -16,6 +16,7 @@ Chrom=crtbp(NIND,PRECI*N);                      %初始种群
 gen=0;                                 %代计数器
 hyp_popu=bs2rv(Chrom,FieldD);          %计算初始种群population的十进制转换
 ObjV=objfunc(meanfunc,covfunc,likfunc,hyp_popu,NIND,X_train,y_train,X_test);           %计算目标函数值
+min0=min(ObjV);
 while gen<MAXGEN
    fprintf('%d\n',gen)
    FitnV=ranking(ObjV);                         %分配适应度值
@@ -35,14 +36,14 @@ while gen<MAXGEN
 end
 %% 画进化图
 figure;
-plot(1:MAXGEN,trace(end,:));
-grid on
-xlabel('遗传代数')
-ylabel('误差的变化')
-title('进化过程')
+% plot(1:MAXGEN,trace(end,:));
+% grid on
+% xlabel('遗传代数')
+% ylabel('误差的变化')
+% title('进化过程')
 bestX=trace(1:end-1,end);
-bestErr=trace(end,end);
-fprintf(['最优初始值\nX=',num2str(bestX'),'\n最小误差err=',num2str(bestErr),'\n'])
+bestObjV=trace(end,end);
+fprintf(['最优初始值\nX=',num2str(bestX'),'\n最小误差err=',num2str(bestObjV),'\n'])
 
 %% define functions
 function ObjV=objfunc(meanfunc,covfunc,likfunc,hyp_popu,NIND,X_train,y_train,X_test)
@@ -63,7 +64,7 @@ for i=1:NIND
     hyp=minimize(hyp,@gp,-100,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train);
     disp(['exp(hyp1.lik)=',num2str(exp(hyp.lik))])
     try
-        [m s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
+        [~,s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
     catch
         ObjV(i)=1e15;
         continue

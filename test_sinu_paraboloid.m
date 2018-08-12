@@ -1,8 +1,9 @@
 % zhouweiyan 20180730
-% reconstruction of sinusoidal and parabola surface
+% reconstruction of sinusoidal and paraboloid surface
 clear
 close all
 clc
+
 %% target figure
 x1=-10:0.1:10;
 x2=-10:0.1:10;
@@ -18,7 +19,8 @@ colormap(jet)
 
 %%% generate data
 % train data
-x1_train_length=floor(length(x1)/4); x2_train_length=floor(length(x2)/4);
+% x1_train_length=floor(length(x1)/8); x2_train_length=floor(length(x2)/8);
+x1_train_length=40; x2_train_length=40;
 % rng   %function里面的设置影响这里，下面的随机每次会保持相同
 rng(1,'v5normal')
 x1_train=x1(randperm(length(x1),x1_train_length));
@@ -40,20 +42,21 @@ surf(X1_train_temp,X2_train_temp,reshape(y_train_temp,length(x1_train),length(x2
 title('data used to train GPR')
 
 % test data
-x1_test=-10:0.3:10;
-x2_test=-10:0.3:10;
+x1_test=-10:0.25:10;
+x2_test=-10:0.25:10;
 ns=[length(x1_test);length(x2_test)];
 [X1_test,X2_test]=meshgrid(x1_test,x2_test);
 X_test=[X1_test(:) X2_test(:)];
 f_test=truefunc(X1_test,X2_test);
-
-%% gaussian regression 1
 meanfunc=[];
 covfunc={'covSEiso'};
 likfunc='likGauss';
+%% gaussian regression 1
+
 opt='exact';
 hyp1.mean=[];
 ell=0.1; sf=10; sn=0.1; 
+% ell= 1.663902248; sf= 11.77984555; sn= 0.622390029; 
 % test_sinu_paraboloid_GA.m
 % ell=trace(1,end);sf=trace(2,end);sn=trace(3,end);
 % test_sinu_paraboloid_PSO.m
@@ -84,7 +87,7 @@ switch opt
         hyp1=minimize(hyp1,@gp,-100,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train);
         disp(['exp(hyp1.lik)=',num2str(exp(hyp1.lik))])
         nlml1apx=gp(hyp1,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train);
-        [m s2]=gp(hyp1,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
+        [m,s2]=gp(hyp1,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
         figure
         surf(X1_test,X2_test,reshape(m,length(X1_test),length(X2_test)));
         title('GPR');

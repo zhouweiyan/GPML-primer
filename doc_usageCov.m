@@ -18,7 +18,7 @@ randn('state',seed);
 x = randn(n,D); xs = randn(3,D);                
 % rng(rand_state);                                % zwy
 % x = randn(n,D); xs = randn(3,D);                % zwy
-opt = 10
+opt = 35
 %% set up covariance functions
 switch opt
     % set up simple covariance functions

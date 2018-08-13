@@ -1,8 +1,8 @@
 % zhouweiyan 20180730
 % reconstruction of sinusoidal and paraboloid surface
 clear
-close all
-clc
+% close all
+% clc
 
 %% target figure
 x1=-10:0.1:10;
@@ -20,7 +20,7 @@ colormap(jet)
 %%% generate data
 % train data
 % x1_train_length=floor(length(x1)/8); x2_train_length=floor(length(x2)/8);
-x1_train_length=40; x2_train_length=40;
+x1_train_length=60; x2_train_length=60;
 % rng   %function里面的设置影响这里，下面的随机每次会保持相同
 rng(1,'v5normal')
 x1_train=x1(randperm(length(x1),x1_train_length));
@@ -28,15 +28,15 @@ x2_train=x2(randperm(length(x2),x2_train_length));
 
 [X1_train,X2_train]=meshgrid(x1_train,x2_train);
 X_train=[X1_train(:),X2_train(:)];
-y_train=truefunc(X1_train,X2_train);
-% y_train=noisefunc(X1_train,X2_train);
+% y_train=truefunc(X1_train,X2_train);
+y_train=noisefunc(X1_train,X2_train);
 
 x1_train_temp=x1(sort(randperm(length(x1),x1_train_length)));
 x2_train_temp=x2(sort(randperm(length(x2),x2_train_length)));
 rng('shuffle')  % 生成不同随机数
 [X1_train_temp,X2_train_temp]=meshgrid(x1_train_temp,x2_train_temp);
-y_train_temp=truefunc(X1_train_temp,X2_train_temp);
-% y_train_temp=noisefunc(X1_train_temp,X2_train_temp);
+% y_train_temp=truefunc(X1_train_temp,X2_train_temp);
+y_train_temp=noisefunc(X1_train_temp,X2_train_temp);
 figure(2)
 surf(X1_train_temp,X2_train_temp,reshape(y_train_temp,length(x1_train),length(x2_train)));
 title('data used to train GPR')
@@ -55,10 +55,10 @@ likfunc='likGauss';
 
 opt='exact';
 hyp1.mean=[];
-ell=0.1; sf=10; sn=0.1; 
+% ell=0.1; sf=10; sn=0.1; 
 % ell= 1.663902248; sf= 11.77984555; sn= 0.622390029; 
 % test_sinu_paraboloid_GA.m
-% ell=trace(1,end);sf=trace(2,end);sn=trace(3,end);
+ell=trace(1,end);sf=trace(2,end);sn=trace(3,end);
 % test_sinu_paraboloid_PSO.m
 % ell=zbest(1);sf=zbest(2);sn=zbest(3);
 hyp1.cov=log([ell;sf]);

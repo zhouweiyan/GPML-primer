@@ -5,7 +5,7 @@
 % Copyright (c) by Carl Edward Rasmussen and Hannes Nickisch, 2018-06-15.
 %                                      File automatically generated using noweb.
 clear  
-% close all
+close all
 clc
 addpath('utils/');
 addpath('gpml/');
@@ -23,7 +23,7 @@ opt = 35
 switch opt
     % set up simple covariance functions
     case 1
-        cn  = {'covNoise'}; sn = 50;  hypn = log(sn);  % one hyperparameter
+        cn  = {'covNoise'}; sn = 0.1;  hypn = log(sn);  % one hyperparameter
         % 0) specify a covariance function
         cov = cn; hyp = hypn;
         % K= sn^(-2)*eye(n,n)
@@ -76,14 +76,14 @@ switch opt
         % hyp=[ln(lamda_1),ln(lamda_2),...,ln(lamda_D),ln(sf)]'
     case 10
         cgi = {'covSEiso'}; 
-        ell = 0.2; sf = 50;hypgi = log([ell;sf]);    % isotropic Gaussian
+        ell = 0.5; sf = 1;hypgi = log([ell;sf]);    % isotropic Gaussian
         cov = cgi; hyp = hypgi;
         % k(x,z)=sf^2*exp(-1/(2*ell^2)*(x-z)'*(x-z));
         % e.g. K(1,2)=sf^2*exp(-1/(2*ell^2)*(x(1,:)-x(2,:))*(x(1,:)-x(2,:))')
         % Ks(1,2)=sf^2*exp(-1/(2*ell^2)*(x(1,:)-xs(2,:))*(x(1,:)-xs(2,:))')
         % hyp=[ln(ell),ln(sf)]'
     case 11
-        cgu = {'covSEisoU'}; ell = 0.9;hypgu = log(ell);   % isotropic Gauss no scale
+        cgu = {'covSEisoU'}; ell = 0.5;hypgu = log(ell);   % isotropic Gauss no scale
         cov = cgu; hyp = hypgu;
         % k(x,z)=exp(-1/(2*ell^2)*(x-z)'*(x-z));
         % e.g. K(1,2)= exp(-1/(2*ell^2)*(x(1,:)-x(2,:))*(x(1,:)-x(2,:))')
@@ -91,21 +91,26 @@ switch opt
         % hyp=[ln(ell)]
     case 12
         cra = {'covRQard'}; 
-        L = rand(D,1);sf = 2;al = 2; hypra = log([L;sf;al]); % ration. quad.
+        %L = rand(D,1);
+        L = [0.5;1];
+        sf = 2;al = 2; hypra = log([L;sf;al]); % ration. quad.
         cov=cra; hyp=hypra;
         % k(x,z)=sf^2*(1+1/(2*al)*(x-z)'*diag(L)^(-2)*(x-z));
         % e.g. K(2,4)=sf^2*(1+1/(2*al)*(x(2,:)-x(4,:))*diag(L)^(-2)*(x(2,:)-x(4,:))')^(-al)
         % hyp=[ln(lamda_1),ln(lamda_2),...,ln(lamda_D),ln(sf),ln(al)]'
     case 13
         cri = {@covRQiso};
-        ell = 0.9; sf = 2;al = 2;hypri = log([ell;sf;al]);   % isotropic
+        ell = 0.9; sf = 2;al = 1;hypri = log([ell;sf;al]);   % isotropic, al=alpha
+        % sf: magnitude
         cov=cri;hyp=hypri;
         % k(x,z)=sf^2*(1+1/(2*al*ell^2)*(x-z)'*(x-z));
         % e.g. K(2,4)=sf^2*(1+1/(2*al*ell^2)*(x(2,:)-x(4,:))*(x(2,:)-x(4,:))')^(-al)
         % hyp=[ln(ell),ln(sf),ln(al)]'
     case 14
         cma = {@covMaternard,5};  % Matern class d=5
-        L = rand(D,1); sf = 2; hypma = log([L;sf]);
+        %L = rand(D,1);
+        L = [1;1]; 
+        sf = 2; hypma = log([L;sf]);
         cov = cma; hyp = hypma;
         % d=5; f_5(t)=1+t+t^2/3
         % k(x,z)=sf^2*f_d(r_d)exp(-r_d), r_d=sqrt(d*(x-z)'*diag(Lamda)^(-2)*(x-z))
@@ -152,10 +157,12 @@ switch opt
         cov=cca; hyp=hypcc;
     case 21
         cci = {'covPPiso',2}; % compact support poly degree 2
-        ell = 0.9; sf = 2;hypcc = log([ell;sf]); 
+        ell =2; sf = 1;hypcc = log([ell;sf]); 
+        % ell: intensity of change in domain of definition
+        % sf: amplitude of function value
         cov=cci; hyp=hypcc;
     case 22
-        cgb = {'covGaboriso'}; ell = 1; p = 1.2; hypgb=log([ell;p]); % Gabor
+        cgb = {'covGaboriso'}; ell = 10; p = 3; hypgb=log([ell;p]); % Gabor
         cov=cgb; hyp=hypgb;
         % t=x(1,:)-x(2,:);
         % exp(-t*t'/(2*ell^2))*cos(2*pi*t*ones(D,1)/p)
@@ -165,7 +172,7 @@ switch opt
         cov = csm; hyp = hypsm;
     case 24
         % long time for thinking the underlying function
-        cvl = {@covSEvlen,{@meanLinear}}; hypvl = [1;0.1;1]; % var lenscal
+        cvl = {@covSEvlen,{@meanLinear}}; hypvl = [1;0.5;1]; % var lenscal
         cov = cvl; hyp = hypvl;
     case 25
         s = 12; cds = {@covDiscrete,s};      % discrete covariance function
@@ -274,12 +281,19 @@ feval(cov{:})
 n_samples=1;
 n_xstar=71;
 xrange=linspace(-5,5,n_xstar)';
-[a b]=meshgrid(xrange);
-K=feval(cov{:},hyp,[a(:) b(:)]);
+[a,b]=meshgrid(xrange);
+xstar=[a(:) b(:)];
+K=feval(cov{:},hyp,xstar);
 K=K+(1e-5)*eye(size(K));
 samples=mvnrnd(zeros(size(a(:))),K,n_samples)';
 figure
 surf(a,b,reshape(samples,n_xstar,n_xstar))
+colormap(jet)
+
+K0=feval(cov{:},hyp,xstar,[0 0]);
+figure
+surf(a,b,reshape(K0,n_xstar,n_xstar),'EdgeColor','none',...
+    'LineStyle','none','FaceLighting','phong');
 colormap(jet)
 
 % 3) evaluate the function on x and xs to get cross-terms

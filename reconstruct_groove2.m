@@ -5,3 +5,4 @@ view([0 -90])
 axis equal
 xlim([1,256])
 ylim([1,256])
+view(3)

@@ -12,7 +12,7 @@ x=randn(n,D);
 xs=randn(3,D);
 
 %% simple covariance library
-opt=12;
+opt=13;
 switch opt
     case 1
         co={'covOne'};
@@ -81,10 +81,10 @@ switch opt
 %         cpa={'covPP','ard',[],2};
 %         L=[2;1];hyppa=log(L);   cov=cpa;hyp=hyppa;
     case 13
-%         cri={'covRQiso'};
-%         ell=0.9;sf=2;al=1;hypri=log([ell;sf;al]);   cov=cri;hyp=hypri;
-        cra={'covRQard'};   % k(x,z)=sf^2*(1+1/(2*al)*(x-z)'*diag(L)^(-2)*(x-z));
-        L=[0.5;1];sf=2;al=1;hypra=log([L;sf;al]);cov=cra;hyp=hypra;
+        cri={'covRQiso'};
+        ell=0.9;sf=2;al=2;hypri=log([ell;sf;al]);   cov=cri;hyp=hypri;
+%         cra={'covRQard'};   % k(x,z)=sf^2*(1+1/(2*al)*(x-z)'*diag(L)^(-2)*(x-z));
+%         L=[0.5;1];sf=2;al=1;hypra=log([L;sf;al]);cov=cra;hyp=hypra;
     case 14
 %         cgu={'covSEisoU'};  % k(x,z) = exp(-(x-z)'*inv(P)*(x-z)/2); P=ell^2*I;
 %         ell=1/sqrt(2);hypgu=log(ell);cov=cgu;hyp=hypgu;

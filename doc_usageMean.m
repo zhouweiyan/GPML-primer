@@ -12,48 +12,51 @@ rand('state',seed);
 randn('state',seed);
 n = 5; D = 2; x = randn(n,D);            % create a random data set
 % n = 5; D = 3; x = randn(n,D);            % create a random data set
-opt=16;
 
 %% set up mean functions
+opt=17;
 switch opt
     % set up simple mean functions
     case 1
-        m0 = {'meanZero'};  hyp0 = [];      % no hyperparameters are needed
-        mean = m0;  hyp = hyp0;             % 0) specify mean function
-    case 2
-        m1 = {'meanOne'};   hyp1 = [];      % no hyperparameters are needed
-        mean = m1;  hyp = hyp1;
-    case 3
         mc = {@meanConst};  hypc = 2;       % also function handles are possible
         mean = mc;  hyp = hypc;
-    case 4
-        ml = {@meanLinear};
-        hypl = [2;3];                       % m(x) = 2*x1 + 3*x2; 2*x(:,1)+3*x(:,2)
-        % hypl = [2;3;1];
-        mean = ml;  hyp = hypl;             % ell
-    case 5
-        mp = {@meanPoly,2}; hypp = [1;1;2;3];   % m(x) = x1+x2+2*x1^2+3*x2^2;
-        mean = mp;  hyp = hypp;                 % x(:,1)+x(:,2)+2*x(:,1).^2+3*x(:,2).^2
-    case 6
-        mn = {@meanNN,[1,0; 0,1],[0.9,0.5]}; hypn = [];  % nearest neighbor
-        mean = mn; hyp = hypn;
-    case 7
+    case 2
         s = 12; hypd = randn(s,1);           % discrete mean with 12 hypers
         md = {'meanDiscrete',s};
         mean = md; hyp = hypd; x = randi([1,s],n,1);
-    case 8
+    case 3
         hyp.cov = [0;0]; hypg = [];                    % GP predictive mean
         xt = randn(2*n,D); yt = sign(xt(:,1)-xt(:,2));      % training data
         mg = {@meanGP,hyp,@infEP,@meanZero,@covSEiso,@likErf,xt,yt};
         mean = mg; hyp = hypg;
-    case 9
+    case 4
         hype = [0;0; log(0.1)];             % regression GP predictive mean
         xt = randn(2*n,D); yt = xt(:,1).*xt(:,2);           % training data
         me = {@meanGPexact,@meanZero,@covSEiso,xt,yt};
         mean = me; hyp = hype;
+    case 5
+        ml = {@meanLinear};
+        hypl = [2;3];                       % m(x) = 2*x1 + 3*x2; 2*x(:,1)+3*x(:,2)
+        % hypl = [2;3;1];
+        mean = ml;  hyp = hypl;             % ell
+    case 6
+        mn = {@meanNN,[0,2;1,2;2,2],[0.9,0.5,0.7]}; hypn = [];  % nearest neighbor
+        mean = mn; hyp = hypn;
+    case 7
+        m1 = {'meanOne'};   hyp1 = [];      % no hyperparameters are needed
+        mean = m1;  hyp = hyp1;
+    case 8
+        mp = {@meanPoly,3}; hypp = [1;1;2;3;1;1];   % m(x) = x1+x2+2*x1^2+3*x2^2;
+        mean = mp;  hyp = hypp;                 % x(:,1)+x(:,2)+2*x(:,1).^2+3*x(:,2).^2
+    case 9
+        d=3;mean={'meanWSPC',d};hyp=[1;2;1;1;1;2;1;1;1;2;1;1];
+    case 10
+        m0 = {'meanZero'};  hyp0 = [];      % no hyperparameters are needed
+        mean = m0;  hyp = hyp0;             % 0) specify mean function
+
         
     % set up composite mean functions
-    case 10
+    case 17
         m1 = {'meanOne'};   hyp1 = [];
         msc = {'meanScale',m1};      hypsc = [3; hyp1];      % scale by 3
         mean = msc; hyp = hypsc;
@@ -99,7 +102,7 @@ feval(mean{:})
 n_samples=1;
 n_xstar=51;
 xrange=linspace(-3,3,n_xstar)';
-[a b]=meshgrid(xrange);
+[a,b]=meshgrid(xrange);
 m=feval(mean{:},hyp,[a(:) b(:)]);
 figure
 surf(a,b,reshape(m,n_xstar,n_xstar))

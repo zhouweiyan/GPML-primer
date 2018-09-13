@@ -3,7 +3,8 @@
 % D. K. Duvenaud, ¡°Automatic Model Construction  with Gaussian Processes,¡± p. 157, 2014.
 %
 % zhouweiyan 20180724
-
+clear
+clc
 addpath(genpath('utils'));
 addpath(genpath('gpml'));
 savefig=false;
@@ -84,9 +85,9 @@ function nice_plot_surface(a,b,Y,ell,xlims)
     set(get(gca,'XLabel'),'Rotation',0,'Interpreter','tex','Fontsize',12,'Fontname','Times New Roman');
     set(get(gca,'YLabel'),'Rotation',0,'Interpreter','tex','Fontsize',12,'Fontname','Times New Roman');
     set(get(gca,'ZLabel'),'Rotation',0,'Interpreter','tex','Fontsize',12,'Fontname','Times New Roman');
-%     set(gca,'xTickLabel',[]);
-%     set(gca,'yTickLabel',[]);
-%     set(gca,'zTickLabel',[]);
+%     set(gca,'xTickLabel',[]);     % remove the ticket of x label
+%     set(gca,'yTickLabel',[]);     % remove the ticket of y label
+%     set(gca,'zTickLabel',[]);     % remove the ticket of z label
     xlabel('x_1');
     ylabel('y_1');
     zlabel('f(x)');

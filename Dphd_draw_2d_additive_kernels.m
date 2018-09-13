@@ -13,7 +13,8 @@ addpath('utils/');
 range=-4:0.1:4;
 [a,b]=meshgrid(range);
 xstar=[a(:) b(:)];
-
+% default setting
+set(0,'DefaultFigureWindowStyle','docked') 
 %% plot a SE kernel
 covfunc='covSEiso';
 hyp.cov=log([1;1]);
@@ -38,7 +39,7 @@ colormap(jet);
 title('covfunc=''covSEiso''');
 %% plot a ADD kernel
 covfunc={'covADD',{1,'covSEiso'}};
-hyp.cov=log([1;1;1;1;sqrt(2)/2])
+hyp.cov=log([1;1;1;1;sqrt(2)/2]);
 K=feval(covfunc{:},hyp.cov,xstar,[0 0]);
 figure(3);
 h=surf(a,b,reshape(K,length(range),length(range)),'EdgeColor','none',...

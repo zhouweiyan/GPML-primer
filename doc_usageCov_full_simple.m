@@ -12,13 +12,13 @@ x=randn(n,D);
 xs=randn(3,D);
 
 %% simple covariance library
-opt=13;
+opt=14;
 switch opt
     case 1
-        co={'covOne'};
-        cov=co;hyp=[];
-%         cc={'covConst'};
-%         sf=1;hypc=log(sf);cov=cc;hyp=hypc;
+%         co={'covOne'};
+%         cov=co;hyp=[];
+        cc={'covConst'};
+        sf=1;hypc=log(sf);cov=cc;hyp=hypc;
     case 2
         cc={'covCos'};  % x belongs to R1
         p=1;sf=1;hypcc=log([p;sf]);   cov=cc;hyp=hypcc;
@@ -88,10 +88,10 @@ switch opt
     case 14
 %         cgu={'covSEisoU'};  % k(x,z) = exp(-(x-z)'*inv(P)*(x-z)/2); P=ell^2*I;
 %         ell=1/sqrt(2);hypgu=log(ell);cov=cgu;hyp=hypgu;
-        cgi={'covSEiso'};   % k(x,z) = sf^2 * exp(-(x-z)'*inv(P)*(x-z)/2)
-        ell=1;sf=0.5;hypgi=log([ell;sf]);cov=cgi;hyp=hypgi;
-%         cga={'covSEard'};
-%         L=[1;0.5];sf=2;hypga=log([L;sf]);cov=cga;hyp=hypga;
+%         cgi={'covSEiso'};   % k(x,z) = sf^2 * exp(-(x-z)'*inv(P)*(x-z)/2)
+%         ell=1;sf=0.5;hypgi=log([ell;sf]);cov=cgi;hyp=hypgi;
+        cga={'covSEard'};
+        L=[1;0.5];sf=2;hypga=log([L;sf]);cov=cga;hyp=hypga;
 %         cgf={'covSE','fact',D}; % including complex part, useless recently
 %         L=randn(2,D);L=L(:);f=ones(D,1);hypf=log([L;f]);cov=cgf;hyp=hypf;
     case 15 

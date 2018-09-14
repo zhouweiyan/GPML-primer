@@ -13,7 +13,7 @@ x=randn(n,D);
 xs=randn(3,D);
 
 %% present composite covariance library
-opt=1;
+opt=2;
 switch opt
     case 1  % ADD
         %cad={'covADD',{1,{'covMaternard',5}}};  
@@ -43,11 +43,17 @@ switch opt
         hyp_p=log([2;4]);
         cov=cpi;hyp=[hyp_p;log(4)];
     case 6  % Prod: K1.*K2.*...
-        cpa={'covPoly','ard',[],3};
-        c=1;sf=1;L=[2;4];hyppa=log([L;c;sf]);
-        cci = {'covPPiso',2}; % compact support poly degree 2
-        ell = 2; sf = 2;hypcc = log([ell;sf]); 
-        cpr = {@covProd,{cpa,cci}};   hyppr = [hyppa; hypcc];       % product
+%         cpa={'covPoly','ard',[],3};
+%         c=1;sf=1;L=[2;4];hyppa=log([L;c;sf]);
+%         cci = {'covPPiso',2}; % compact support poly degree 2
+%         ell = 2; sf = 2;hypcc = log([ell;sf]); 
+%         cpr = {'covProd',{cpa,cci}};   hyppr = [hyppa; hypcc];       % product
+%         cov = cpr; hyp = hyppr;
+%         csa={'covSEiso'}; hypsa =log([20;40]);
+%         csi={'covSEiso'};hypsi=log([50;1]);  
+        csa={'covSEard'}; hypsa =log([20;20;40]);
+        csi={'covSEiso'};hypsi=log([5;1]);
+        cpr = {'covProd',{csa,csi}};   hyppr = [hypsa; hypsi];       % product
         cov = cpr; hyp = hyppr;
     case 7
          cpr = {'covPref',{'covSEard'}}; hyppr = log([1;2]);

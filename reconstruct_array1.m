@@ -1,5 +1,5 @@
 load array1.txt
-array1=reshape(array1,256,256)';
+array1=reshape(array1,256,256);
 surf(array1);colormap(jet)
 view([0 -90])
 axis equal

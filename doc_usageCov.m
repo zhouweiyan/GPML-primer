@@ -227,7 +227,7 @@ switch opt
         % periodic Matern with ARD
         cpa = {'covPERard',{@covMaternard,3}};
     case 33
-        % ? additive based on SEiso using unary and pairwise interactions
+        % additive based on SEiso using unary and pairwise interactions
         cad = {'covADD',{[1,2],'covSEiso'}};
         cov=cad; hyp=[0;0;0;0;0;0];
         K= feval(cov{:},hyp,x)

@@ -4,6 +4,7 @@
 %
 % Copyright (c) by Carl Edward Rasmussen and Hannes Nickisch, 2018-06-15.
 %                                      File automatically generated using noweb.
+% zhouweiyan 20180913
 clear
 % close all
 clc
@@ -14,7 +15,7 @@ n = 5; D = 2; x = randn(n,D);            % create a random data set
 % n = 5; D = 3; x = randn(n,D);            % create a random data set
 
 %% set up mean functions
-opt=17;
+opt=12;
 switch opt
     % set up simple mean functions
     case 1
@@ -56,19 +57,22 @@ switch opt
 
         
     % set up composite mean functions
-    case 17
+    case 17 % Scale
         m1 = {'meanOne'};   hyp1 = [];
         msc = {'meanScale',m1};      hypsc = [3; hyp1];      % scale by 3
         mean = msc; hyp = hypsc;
-    case 11
-        m0 = {'meanZero'};  hyp0 = [];
+    case 11 % Sum
+%         m0 = {'meanZero'};  hyp0 = [];
+%         mc = {@meanConst};  hypc = 2;
+%         ml = {@meanLinear}; hypl = [2;3]; 
+%         msu = {'meanSum',{m0,mc,ml}};  hypsu = [hyp0; hypc; hypl];    % sum
+%         mean = msu; hyp = hypsu;
+        ml = {@meanLinear};hypl = [2;3];
+        mp = {@meanPoly,3}; hypp = [1;1;2;3;1;1];
+        mean={'meanSum',{ml,mp}};hyp=[hypl;hypp];
+    case 12 % Prod
         mc = {@meanConst};  hypc = 2;
-        ml = {@meanLinear}; hypl = [2;3]; 
-        msu = {'meanSum',{m0,mc,ml}};  hypsu = [hyp0; hypc; hypl];    % sum
-        mean = msu; hyp = hypsu;
-    case 12
-        mc = {@meanConst};  hypc = 2;
-        ml = {@meanLinear}; hypl = [2;3];
+        ml = {@meanLinear}; hypl = [0.2;0.3];
         mpr = {@meanProd,{mc,ml}};     hyppr = [hypc; hypl];      % product
         mean = mpr; hyp = hyppr;
     case 13

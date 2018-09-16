@@ -23,7 +23,7 @@ ylabel('output, y')
 nlml = gp(hyp, @infGaussLik, meanfunc, covfunc, likfunc, x, y)
 
 z = linspace(-1.9, 1.9, 101)';
-[m s2] = gp(hyp, @infGaussLik, meanfunc, covfunc, likfunc, x, y, z);
+[m,s2] = gp(hyp, @infGaussLik, meanfunc, covfunc, likfunc, x, y, z);
 figure(2)
 set(gca, 'FontSize', 24)
 f = [m+2*sqrt(s2); flip(m-2*sqrt(s2),1)];

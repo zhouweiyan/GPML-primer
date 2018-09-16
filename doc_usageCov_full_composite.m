@@ -26,7 +26,6 @@ switch opt
         cgi = {'covSEiso'}; 
         ell = 0.9; sf = 2;hypgi = log([ell;sf]);
         cma = {'covMask',{mask,cgi{:}}}; hypma = hypgi;
-        %cma = {'covMask',{mask,cgi}}; hypma = hypgi;
         cov = cma; hyp = hypma;
 %         cov={'covSum',{cma,'covSEiso'}};hyp=[hypma;log([1;0.1])];
     case 3  % Scale: sf^2*k(x,z)

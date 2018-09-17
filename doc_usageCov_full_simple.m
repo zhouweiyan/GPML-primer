@@ -12,7 +12,7 @@ x=randn(n,D);
 xs=randn(3,D);
 
 %% simple covariance library
-opt=14;
+opt=8;
 switch opt
     case 1
 %         co={'covOne'};
@@ -55,7 +55,7 @@ switch opt
         L=[2;1];sf=2;hypma=log([L;sf]); cov=cma;hyp=hypma;
     case 8
         cn={'covNoise'};% k(x^p,x^q) = sf^2 * \delta(p,q)
-        sf=1;hypn=log(sf);cov=cn;hyp=hypn;
+        sf=0.1;hypn=log(sf);cov=cn;hyp=hypn;
     case 9
         cnn={'covNNone'};   % the outline shape remains unchanged, seems useless for me
         ell=1;sf=1;hypnn=log([ell;sf]);   cov=cnn;hyp=hypnn;

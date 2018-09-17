@@ -13,7 +13,7 @@ x=randn(n,D);
 xs=randn(3,D);
 
 %% present composite covariance library
-opt=2;
+opt=5;
 switch opt
     case 1  % ADD
         %cad={'covADD',{1,{'covMaternard',5}}};  
@@ -39,9 +39,9 @@ switch opt
         csu = {'covSum',{cn,cc,cl}}; hypsu = [hypn; hypc; hypl];      % sum
         cov=csu;hyp=hypsu;
     case 5  % PER
-        cpi={'covPER','ard',{'covSEisoU'}};
-        hyp_p=log([2;4]);
-        cov=cpi;hyp=[hyp_p;log(4)];
+        cpi={'covPER','ard',{'covSEard'}};
+        hyp_p=log([500;20;1;1;1;1;1]);
+        cov=cpi;hyp=hyp_p;
     case 6  % Prod: K1.*K2.*...
 %         cpa={'covPoly','ard',[],3};
 %         c=1;sf=1;L=[2;4];hyppa=log([L;c;sf]);
@@ -87,6 +87,7 @@ if D~=1
     figure
     surf(a,b,reshape(K0,n_xstar,n_xstar),'EdgeColor','none',...
         'LineStyle','none','FaceLighting','phong');
+    xlabel('x1');ylabel('x2')
     colormap(jet)
 else
     K1=feval(cov{:},hyp,xrange);

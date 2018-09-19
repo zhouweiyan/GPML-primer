@@ -14,7 +14,7 @@ xlabel('x1');ylabel('x2');
 view(3)
 %% data preparation
 % train set
-x1_train=4:16:256; x2_train=1: 256;
+x1_train=4:4:256; x2_train=4:4:256;
 [X1_train,X2_train]=meshgrid(x1_train,x2_train);
 X_train=[X1_train(:),X2_train(:)];
 y_train=groove(x2_train,x1_train);
@@ -32,10 +32,11 @@ y_test_ideal=groove(x2_test,x1_test);
 %% GP regression
 meanfunc=[];hyp.mean=[];
 % mask=[1,0];
-covfunc={'covSEard'};hyp.cov=log([3;3;1]);
-% covfunc={'covMask',{mask,{'covSEiso'}}};hyp.cov=log([2;40]);  %log([ell;sf])
+% covfunc={'covSEard'};hyp.cov=log([3;3;1]);
+% covfunc={'covMaternard',3};hyp.cov=log([3;3;1]);
+covfunc={'covGE','ard',[]};gamma=1.5;hyp.cov=log([4;4;(gamma/(2-gamma))]);
 likfunc='likGauss';hyp.lik=log(0.1);    % log(sn)
-hyp=minimize(hyp,@gp,-80,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train);
+hyp=minimize(hyp,@gp,-180,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train);
 [m,s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
 figure
 surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)))

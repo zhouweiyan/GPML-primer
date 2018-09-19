@@ -1,5 +1,5 @@
 % demonstrate usage of simple covariance functions
-% zhouweiyan 20180911
+% zhouweiyan 20180919
 clear
 % close all
 clc
@@ -12,7 +12,7 @@ x=randn(n,D);
 xs=randn(3,D);
 
 %% simple covariance library
-opt=8;
+opt=5;
 switch opt
     case 1
 %         co={'covOne'};
@@ -26,10 +26,10 @@ switch opt
         ce={'covEye'};  % k(x^p,x^q) = \delta(p,q)
         hype=[];cov=ce;hyp=hype;
     case 4
-%         cgbi={'covGaboriso'};
-%         ell=5;p=3;hypgbi=log([ell;p]);  cov=cgbi;hyp=hypgbi;
-        cgba={'covGaborard'};
-        ell=[5;10];p=[1;6];hypgba=log([ell;p]);  cov=cgba;hyp=hypgba;
+        cgbi={'covGaboriso'};
+        ell=5;p=3;hypgbi=log([ell;p]);  cov=cgbi;hyp=hypgbi;
+%         cgba={'covGaborard'};
+%         ell=[5;10];p=[1;6];hypgba=log([ell;p]);  cov=cgba;hyp=hypgba;
     case 5
 %         cge={'covGE','eye',[]};
 %         gamma=1.5;hypge=log(gamma/(2-gamma)); cov=cge;hyp=hypge;
@@ -49,10 +49,10 @@ switch opt
 %         clo={'covLINone'};    % K=(x*x'+1)/ell^2;
 %         ell=0.9;hyplo=log(ell);cov=clo;hyp=hyplo;
     case 7
-%         cmi={'covMaterniso',5}; 
+%         cmi={'covMaterniso',3}; 
 %         L=0.5;sf=2;hypmi=log([L;sf]);  cov=cmi;hyp=hypmi;
         cma={'covMaternard',5};
-        L=[2;1];sf=2;hypma=log([L;sf]); cov=cma;hyp=hypma;
+        L=[4;2];sf=3;hypma=log([L;sf]); cov=cma;hyp=hypma;
     case 8
         cn={'covNoise'};% k(x^p,x^q) = sf^2 * \delta(p,q)
         sf=0.1;hypn=log(sf);cov=cn;hyp=hypn;
@@ -72,14 +72,14 @@ switch opt
         cpa={'covPoly','ard',[],3};
         c=1;sf=1;L=[2;4];cov=cpa;hyp=log([L;c;sf]); %k(x,z) = sf^2*(c+s)^d , where s=x*inv(P)*z
     case 12
-        cpi={'covPPiso',2};   % [varargout{:}] = covScale({'covPP','iso',[],v},varargin{:});
-        ell=10;sf=2;hyppi=log([ell;sf]);   cov=cpi;hyp=hyppi;
+%         cpi={'covPPiso',2};   % [varargout{:}] = covScale({'covPP','iso',[],v},varargin{:});
+%         ell=2;sf=2;hyppi=log([ell;sf]);   cov=cpi;hyp=hyppi;
 %         cpa={'covPPard',3};
 %         L=[2;1];sf=1;hyppa=log([L;sf]);   cov=cpa;hyp=hyppa;
 %         cpi={'covPP','iso',[],2};
 %         ell=2;hyppi=log(ell);   cov=cpi;hyp=hyppi;
-%         cpa={'covPP','ard',[],2};
-%         L=[2;1];hyppa=log(L);   cov=cpa;hyp=hyppa;
+        cpa={'covPP','ard',[],2};
+        L=[2;10];hyppa=log(L);   cov=cpa;hyp=hyppa;
     case 13
         cri={'covRQiso'};
         ell=0.9;sf=2;al=2;hypri=log([ell;sf;al]);   cov=cri;hyp=hypri;
@@ -91,7 +91,7 @@ switch opt
 %         cgi={'covSEiso'};   % k(x,z) = sf^2 * exp(-(x-z)'*inv(P)*(x-z)/2)
 %         ell=1;sf=0.5;hypgi=log([ell;sf]);cov=cgi;hyp=hypgi;
         cga={'covSEard'};
-        L=[1;0.5];sf=2;hypga=log([L;sf]);cov=cga;hyp=hypga;
+        L=1;sf=2;hypga=log([L;sf]);cov=cga;hyp=hypga;
 %         cgf={'covSE','fact',D}; % including complex part, useless recently
 %         L=randn(2,D);L=L(:);f=ones(D,1);hypf=log([L;f]);cov=cgf;hyp=hypf;
     case 15 
@@ -114,13 +114,13 @@ set(0,'DefaultFigureWindowStyle','docked') ;
 % 1) query th enumber of parameters
 feval(cov{:})
 % 2) evaluate the function on x, x and xs to get cross-term
-[K,dK]=feval(cov{:},hyp,x)  % K: n¡Án; kss: ns¡Á1; Ks: n¡Áns
-[kss,dkss]=feval(cov{:},hyp,xs,'diag')
-[Ks,dKs]=feval(cov{:},hyp,x,xs)
+% [K,dK]=feval(cov{:},hyp,x)  % K: n¡Án; kss: ns¡Á1; Ks: n¡Áns
+% [kss,dkss]=feval(cov{:},hyp,xs,'diag')
+% [Ks,dKs]=feval(cov{:},hyp,x,xs)
 
 % 3) plot a draw from the kernel
-n_xstar=71;
-xrange=linspace(-5,5,n_xstar)';
+n_xstar=64;
+xrange=(1:2:128)';
 if D~=1
     [a,b]=meshgrid(xrange);
     xstar=[a(:) b(:)];
@@ -136,6 +136,7 @@ if D~=1
     figure
     surf(a,b,reshape(K0,n_xstar,n_xstar),'EdgeColor','none',...
         'LineStyle','none','FaceLighting','phong');
+    xlabel('x1');ylabel('x2');
     colormap(jet)
 else
     K1=feval(cov{:},hyp,xrange);
@@ -144,4 +145,7 @@ else
     samples=mvnrnd(zeros(n_xstar,1),K1,n_samples)';
     figure
     plot(xrange,samples);
+    K0=feval(cov{:},hyp,xrange,0);
+    figure
+    plot(xrange,K0);
 end

@@ -1,6 +1,6 @@
 disp('See http://www.gaussianprocess.org/gpml/code/matlab/doc/ for details.')
 clear 
-close all
+% close all
 clc
 write_fig = 0; N = 30;
 sd = 3; 

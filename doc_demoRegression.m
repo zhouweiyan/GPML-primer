@@ -23,7 +23,7 @@ ylabel('output, y')
 nlml = gp(hyp, @infGaussLik, meanfunc, covfunc, likfunc, x, y)
 
 z = linspace(-1.9, 1.9, 101)';
-[m s2] = gp(hyp, @infGaussLik, meanfunc, covfunc, likfunc, x, y, z);
+[m,s2] = gp(hyp, @infGaussLik, meanfunc, covfunc, likfunc, x, y, z);
 figure(2)
 set(gca, 'FontSize', 24)
 f = [m+2*sqrt(s2); flip(m-2*sqrt(s2),1)];
@@ -43,7 +43,7 @@ hyp2.cov =log([ell;sf]); hyp2.lik = log(0.1);
 hyp2 = minimize(hyp2, @gp, -100, @infGaussLik, [], covfunc, likfunc, x, y);
 disp(['exp(hyp2.lik)=',exp(hyp2.lik)])
 nlml2 = gp(hyp2, @infGaussLik, [], covfunc, likfunc, x, y)
-[m s2] = gp(hyp2, @infGaussLik, [], covfunc, likfunc, x, y, z);
+[m,s2] = gp(hyp2, @infGaussLik, [], covfunc, likfunc, x, y, z);
 figure
 set(gca, 'FontSize', 24)
 f = [m+2*sqrt(s2); flip(m-2*sqrt(s2),1)];
@@ -83,7 +83,7 @@ axis([-1.9 1.9 -0.9 3.9])
 % u=linspace(-1.3,1.3,fix(n/2))';
 u = x(randperm(n,fix(n/2)),:);
 covfuncF = {@apxSparse, {covfunc}, u};
-[mF s2F] = gp(hyp, @infGaussLik, meanfunc, covfuncF, likfunc, x, y, z);
+[mF,s2F] = gp(hyp, @infGaussLik, meanfunc, covfuncF, likfunc, x, y, z);
 
 figure(5)
 set(gca, 'FontSize', 24)

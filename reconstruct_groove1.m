@@ -1,8 +1,11 @@
 % isotropic/unisotropic undersampling
+% x1 change horizontally, x2 change vertically,e.g.(x2,x1)
+% (1,1) (1,2) (1,3)... 
+% (2,1) (2,2) (2,3)...
 % zhouweiyan 20180915
 clear
-close all
-clc
+% close all
+% clc
 load groove1.txt
 groove=reshape(groove1,256,256);
 figure
@@ -14,7 +17,7 @@ xlabel('x1');ylabel('x2');
 
 %% data preparation
 % train set
-x1_train=4:8:256; x2_train=4:8:256;
+x1_train=2:4:256; x2_train=2:4:256;
 [X1_train,X2_train]=meshgrid(x1_train,x2_train);
 X_train=[X1_train(:),X2_train(:)];
 y_train=groove(x2_train,x1_train);
@@ -53,6 +56,8 @@ m_a=reshape(m,length(x2_test),length(x1_test));
 % m_a=m_a(1:256,4:252);y_test_ideal_a=y_test_ideal(1:256,4:252);    % cut
 % the boundary of x1
 m_a=m_a(min(x2_train):max(x2_train),min(x1_train):max(x1_train));y_test_ideal_a=y_test_ideal(min(x2_train):max(x2_train),min(x1_train):max(x1_train));
-% surf(m_a)
+figure
+surf(y_test_ideal_a-m_a);   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1); 
+zlim([-90,40]);
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))/range
-max(m_a(:)-y_test_ideal_a(:))
+max(abs(m_a(:)-y_test_ideal_a(:)))

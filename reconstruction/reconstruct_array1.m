@@ -3,11 +3,11 @@ array=reshape(array1,256,256);
 
 figure;surf(array)
 xlim([1,256]);ylim([1,256]);colormap(jet)
-% h=fspecial('average',3);
-% a3=imfilter(array,h,'corr','replicate');
-% figure;surf(a3)
-% xlim([1,256]);ylim([1,256]);colormap(jet)
-
+h=fspecial('average',3);
+a3=imfilter(array,h,'corr','replicate');
+figure;surf(a3)
+xlim([1,256]);ylim([1,256]);colormap(jet)
+array=a3;
 %% data preparation
 % train set
 x1_train=1:2:128; x2_train=1:2:128;

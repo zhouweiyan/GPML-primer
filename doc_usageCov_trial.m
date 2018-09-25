@@ -9,13 +9,13 @@ seed=0;
 rand('state',seed);
 randn('state',seed);
 %% latent individual covariance
+% cov={'covSEard'};hyp=log([1;2]);
 mask = [0,1];
-cgi = {'covSEiso'};
-cma = {'covMask',{mask,cgi{:}}}; hypma = log([1.5;15]);%log([ell;sf]);
-covfunc1={'covSum',{cma,'covSEiso'}};hyp1.cov=[hypma;log([2;3])];%relative good
-covfunc2={'covMaternard',1};hyp2.cov=log([1;1;4]);
-
-cov={'covSum',{covfunc1,covfunc2}};hyp=[hyp1.cov;hyp2.cov];
+cgi = {'covMaternard',3};
+cma = {'covMask',{mask,cgi}}; hypma = log([1.5;1]);%log([ell;sf]);
+covfunc={'covSum',{cma,{'covGE','ard',[]}}};
+gamma=1.5;
+hyp.cov=[hypma;log([1;1;(gamma/(2-gamma))])];%best now
 %% visualization
 % set(0,'DefaultFigureWindowStyle','docked') ;
 % % 1) query th enumber of parameters
@@ -72,9 +72,14 @@ if D~=1
     samples=mvnrnd(zeros(size(a(:))),K1,n_samples)';
     figure
     surf(a,b,reshape(samples,n_xstar,n_xstar))
-    xlabel('x1');ylabel('x2')
     colormap(jet)
     
+    K0=feval(cov{:},hyp,xstar,[0 0]);
+    figure
+    surf(a,b,reshape(K0,n_xstar,n_xstar),'EdgeColor','none',...
+        'LineStyle','none','FaceLighting','phong');
+    xlabel('x1');ylabel('x2');
+    colormap(jet)
 else
     K1=feval(cov{:},hyp,xrange);
     K1=K1+(1e-5)*eye(size(K1));

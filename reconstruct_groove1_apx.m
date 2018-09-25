@@ -68,5 +68,7 @@ m_a=reshape(m,length(x2_test),length(x1_test));
 m_a=m_a(min(x2_train):max(x2_train),min(x1_train):max(x1_train));
 y_test_ideal_a=y_test_ideal(min(x2_train):max(x2_train),min(x1_train):max(x1_train));
 % surf(m_a)
+figure
+surf(y_test_ideal_a-m_a,'FaceAlpha',0.1);
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))/range
 max(m_a(:)-y_test_ideal_a(:))

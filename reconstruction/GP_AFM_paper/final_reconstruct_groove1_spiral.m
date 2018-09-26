@@ -88,8 +88,6 @@ switch opt
         DT=delaunayTriangulation(P);
         % triplot(DT)
         V=y_train_spi;
-        % approximate path
-        path_len=sum(sqrt((x1_train_spi(2:end)-x1_train_spi(1:(end-1))).^2+(x2_train_spi(2:end)-x2_train_spi(1:(end-1))).^2))
         Pq=X_test;
         
         [ti,bc]=pointLocation(DT,Pq);

@@ -85,7 +85,7 @@ switch opt
     case 'exact'
         tic
         hyp1=minimize(hyp1,@gp,-100,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train);
-        % load('test_sinu_paraboloid_hyp1.mat');
+%         load('test_sinu_paraboloid_hyp1.mat');
         disp(['exp(hyp1.lik)=',num2str(exp(hyp1.lik))])
         nlml=gp(hyp1,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train)
         [m,s2]=gp(hyp1,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);

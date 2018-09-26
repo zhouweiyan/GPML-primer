@@ -1,8 +1,8 @@
 % zhouweiyan 20180730
 % reconstruction of sinusoidal and paraboloid surface
 clear
-% close all
-% clc
+close all
+clc
 
 %% target figure
 x1=-10:0.1:10;
@@ -20,7 +20,7 @@ colormap(jet)
 %%% generate data
 % train data
 % x1_train_length=floor(length(x1)/8); x2_train_length=floor(length(x2)/8);
-x1_train_length=60; x2_train_length=60;
+x1_train_length=50; x2_train_length=50;
 % rng   %function里面的设置影响这里，下面的随机每次会保持相同
 rng(1,'v5normal')
 x1_train=x1(randperm(length(x1),x1_train_length));
@@ -70,7 +70,7 @@ switch opt
         % load('test_sinu_paraboloid_hyp1.mat');
         disp(['exp(hyp1.lik)=',num2str(exp(hyp1.lik))])
         nlml=gp(hyp1,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train)
-        [m s2]=gp(hyp1,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
+        [m,s2]=gp(hyp1,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
         figure
         surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)));
         title('GPR');

@@ -1,12 +1,15 @@
 % simulate spiral scanning pattern
 % Reference: I. A. Mahmood, S. O. R. Moheimani, and B. Bhikkaji, ¡°A New Scanning Method for Fast Atomic Force Microscopy,¡± 
 % IEEE Transactions on Nanotechnology, vol. 10, no. 2, pp. 203¨C216, Mar. 2011.
+% combine delaunayTriangulation interpolation and GPR
 % zhouweiyan 20180926
 % done
 
 clear
-% close all
+close all
 % clc
+% opt='GP';
+opt='DT';
 load('array2_GP.mat')
 set(0,'DefaultFigureWindowStyle','docked') 
 figure
@@ -34,12 +37,6 @@ axis ([0 128 0 128])
 grid on
 hold on;plot(xs,ys)
 
-%plot the outside dashed circle
-% hold on
-% xita=0:(pi/180):(2*pi);
-% x=r_end*cos(xita)+64;
-% y=r_end*sin(xita)+64;
-% plot(x,y,'--')
 %% data preparation
 % train set
 x1_train_spi=xs';x2_train_spi=ys';
@@ -63,25 +60,47 @@ x1_test=1:128;x2_test=1:128;
 X_test=[X1_test(:),X2_test(:)];
 [y_test_ideal,y_test_s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
 y_test_ideal=reshape(y_test_ideal,length(x2_test),length(x1_test));
-%% GP regression
-meanfunc=[];hyp.mean=[];
-mask = [0,1];
-cgi = {'covSEiso'};
-cma = {'covMask',{mask,cgi{:}}}; hypma = log([1.5;15]);%log([ell;sf]);
-covfunc1={'covSum',{cma,'covSEiso'}};hyp1.cov=[hypma;log([2;3])];%relative good
-covfunc2={'covMaternard',1};hyp2.cov=log([1;1;4]);
-covfunc={'covSum',{covfunc1,covfunc2}};hyp.cov=[hyp1.cov;hyp2.cov];
-
-likfunc='likGauss';hyp.lik=log(10);    % log(sn)
-hyp=minimize(hyp,@gp,-80,@infGaussLik,meanfunc,covfunc,likfunc,X_train_spi,y_train_spi);
-[m,s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train_spi,y_train_spi,X_test);
-figure
-surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)))
-colormap(jet)
-axis equal
-xlim([1,128]);ylim([1,128]);zlim([-50,40]);
-xlabel('x1');ylabel('x2');view(3)
-
+%% GP regression/DT linear interplotation
+switch opt
+    case 'GP'
+        meanfunc=[];hyp.mean=[];
+        mask = [0,1];
+        cgi = {'covSEiso'};
+        cma = {'covMask',{mask,cgi{:}}}; hypma = log([1.5;15]);%log([ell;sf]);
+        covfunc1={'covSum',{cma,'covSEiso'}};hyp1.cov=[hypma;log([2;3])];%relative good
+        covfunc2={'covMaternard',1};hyp2.cov=log([1;1;4]);
+        covfunc={'covSum',{covfunc1,covfunc2}};hyp.cov=[hyp1.cov;hyp2.cov];
+        
+        likfunc='likGauss';hyp.lik=log(10);    % log(sn)
+        hyp=minimize(hyp,@gp,-80,@infGaussLik,meanfunc,covfunc,likfunc,X_train_spi,y_train_spi);
+        [m,s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train_spi,y_train_spi,X_test);
+        figure
+        surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)))
+        colormap(jet)
+        axis equal
+        xlim([1,128]);ylim([1,128]);zlim([-50,40]);
+        xlabel('x1');ylabel('x2');view(3)
+    case 'DT'
+        P=X_train_spi;
+        DT=delaunayTriangulation(P);
+        % triplot(DT)
+        V=y_train_spi;
+        % approximate path
+        path_len=sum(sqrt((x1_train_spi(2:end)-x1_train_spi(1:(end-1))).^2+(x2_train_spi(2:end)-x2_train_spi(1:(end-1))).^2))
+        Pq=X_test;
+        
+        [ti,bc]=pointLocation(DT,Pq);
+        triVals=V(DT(ti,:));
+        Vq=dot(bc',triVals')';
+        m=Vq;
+        figure
+        surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)))
+        colormap(jet)
+        axis equal
+        xlim([min(x1_train),max(x1_train)]);ylim([min(x2_train),max(x2_train)]);zlim([-50,40]);
+        xlabel('x1');ylabel('x2');
+        view(3)
+end
 %% Error analysis
 range=max(array(:))-min(array(:))
 % NRMSD=sqrt(sum(m-y_test_ideal(:)).^2)/range

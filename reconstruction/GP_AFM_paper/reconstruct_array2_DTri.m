@@ -1,5 +1,6 @@
 % delaunayTriangulation interpolation
 % zhouweiyan 20180925
+% done
 clear
 close all
 clc
@@ -13,7 +14,7 @@ xlabel('x1');ylabel('x2');view(3)
 
 %% data preparation
 % train set
-x1_train=2:6:128; x2_train=1:1:128;
+x1_train=2:4:128; x2_train=1:1:128;
 [X1_train,X2_train]=meshgrid(x1_train,x2_train);
 X_train=[X1_train(:),X2_train(:)];
 y_train=array(x2_train,x1_train);
@@ -61,3 +62,4 @@ surf(y_test_ideal-m_a);xlabel('x1');ylabel('x2');colormap(jet)
 zlim([-50,40]);
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal(:)))
+PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2))

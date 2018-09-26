@@ -1,8 +1,9 @@
 % isotropic/unisotropic undersampling
 % array2: 128¡Á128 pixels
 % zhouweiyan 20180925
+% done
 clear
-close all
+% close all
 clc
 load array2.mat
 figure
@@ -61,3 +62,8 @@ surf(y_test_ideal_a-m_a);xlabel('x1');ylabel('x2');
 colormap(jet)
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal_a(:)))
+PSNR=max(y_test_ideal_a(:))*sqrt(size(y_test_ideal_a,1)*size(y_test_ideal_a,2))/sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))
+
+% scanning pattern
+% figure
+% plot3(X1_train,X2_train,ones(128,32),'*')

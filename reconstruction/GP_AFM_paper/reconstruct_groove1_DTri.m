@@ -3,18 +3,17 @@
 clear
 % close all
 % clc
-load groove1.txt
-groove=reshape(groove1,256,256);
+load groove1.mat
 figure
 surf(groove);colormap(jet)
 % view([0 -90])
 axis equal
-xlim([1,256]);ylim([1,256]);zlim([-90,40]);
+xlim([1,128]);ylim([1,128]);zlim([-90,40]);
 xlabel('x1');ylabel('x2');
 
 %% data preparation
 % train set
-x1_train=2:4:256; x2_train=1:256;
+x1_train=2:4:128; x2_train=1:128;
 [X1_train,X2_train]=meshgrid(x1_train,x2_train);
 X_train=[X1_train(:),X2_train(:)];
 y_train=groove(x2_train,x1_train);
@@ -63,3 +62,4 @@ surf(y_test_ideal-m_a);   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1);
 zlim([-90,40]);
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal(:)))
+PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2))

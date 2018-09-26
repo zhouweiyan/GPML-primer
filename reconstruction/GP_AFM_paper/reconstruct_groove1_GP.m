@@ -4,8 +4,8 @@
 % (2,1) (2,2) (2,3)...
 % zhouweiyan 20180925
 clear
-% close all
-% clc
+close all
+clc
 load groove1.mat
 figure
 surf(groove);colormap(jet)
@@ -53,12 +53,11 @@ range=max(groove(:))-min(groove(:));
 % max(m-y_test_ideal(:))
 
 m_a=reshape(m,length(x2_test),length(x1_test));
-% m_a=m_a(1:256,4:252);y_test_ideal_a=y_test_ideal(1:256,4:252);    % cut
-% the boundary of x1
-m_a=m_a(min(x2_train):max(x2_train),min(x1_train):max(x1_train));
-y_test_ideal_a=y_test_ideal(min(x2_train):max(x2_train),min(x1_train):max(x1_train));
+
 figure
-surf(y_test_ideal_a-m_a);   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1); 
+surf(y_test_ideal-m_a);xlabel('x1');ylabel('x2');colormap(jet)
 zlim([-90,40]);
-NRMSD=sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))/range
-max(abs(m_a(:)-y_test_ideal_a(:)))
+NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range
+max(abs(m_a(:)-y_test_ideal(:)))
+PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2))
+

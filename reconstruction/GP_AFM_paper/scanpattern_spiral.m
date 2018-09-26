@@ -7,27 +7,27 @@ clear
 close all
 clc
 %% Constant Angular Velocity(CAV)
-r_end=6;
-P=r_end*2/(8-1);
+r_end=64*1.6;
+P=r_end*2/(60-1);
 %P=spiral radius¡Á2/(number of curves?1)
 %eq.(4)
-w=188.5;
+w=120;
 f=2000;
 T=1/f;
 T_spiral=2*pi*r_end/(P*w);	%CAV eq.(6)
 t=0:T:T_spiral;
-xs=P*w/(2*pi)*t.*cos(w*t);	%eq.(17)
-ys=P*w/(2*pi)*t.*sin(w*t);	%eq.(18)
+xs=P*w/(2*pi)*t.*cos(w*t)+64;	%eq.(17)
+ys=P*w/(2*pi)*t.*sin(w*t)+64;	%eq.(18)
 plot(xs,ys,'+')
 axis equal
-axis ([-6.5 6.5 -6.5 6.5])
+axis ([0 128 0 128])
 grid on
-hold on
+hold on;plot(xs,ys)
 %plot the outside dashed circle
-xita=0:(pi/180):(2*pi);
-x=r_end*cos(xita);
-y=r_end*sin(xita);
-plot(x,y,'--')
+% xita=0:(pi/180):(2*pi);
+% x=r_end*cos(xita);
+% y=r_end*sin(xita);
+% plot(x,y,'--')
 
 %% Constant Linear Velocity(CLV)
 r_end=6;

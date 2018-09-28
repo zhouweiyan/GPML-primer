@@ -4,9 +4,9 @@
 % done
 clear
 close all
-% clc
-opt='GP';
-% opt='DT';
+clc
+% opt='GP';
+opt='DT';
 load array2.mat
 figure
 surf(array);colormap(jet)

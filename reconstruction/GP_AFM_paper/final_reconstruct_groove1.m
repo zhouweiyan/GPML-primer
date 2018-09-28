@@ -4,7 +4,7 @@
 % done
 clear
 % close all
-% clc
+clc
 % opt='GP';
 opt='DT';
 load groove1.mat

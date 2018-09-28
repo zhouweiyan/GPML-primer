@@ -7,9 +7,9 @@
 
 clear
 close all
-% clc
-% opt='GP';
-opt='DT';
+clc
+opt='GP';
+% opt='DT';
 load('groove1_GP.mat')
 set(0,'DefaultFigureWindowStyle','docked') 
 figure

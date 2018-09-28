@@ -18,10 +18,15 @@ figure
 plot(x,y,'--')
 hold on
 axis equal;xlim([X0-A/2,X0+A/2]);ylim([Y0-B/2,Y0+B/2])
-% for i=1:length(t)
+% for i=1:length(t) % show the dynamic process 
 %     plot(x(i),y(i),'*')
 %     if i~=length(t)
 %         plot([x(i),x(i+1)],[y(i),y(i+1)],'--');
 %     end
 %     pause(0.01)
 % end
+plot([0 0 128 128 0],[0 128 128 0 0],'k--','LineWidth',2)
+axis off
+grid off
+tightfig
+set_fig_units_cm(10,10)

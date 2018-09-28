@@ -9,13 +9,14 @@ seed=0;
 rand('state',seed);
 randn('state',seed);
 %% latent individual covariance
-% cov={'covSEard'};hyp=log([1;2]);
-mask = [0,1];
-cgi = {'covMaternard',3};
-cma = {'covMask',{mask,cgi}}; hypma = log([1.5;1]);%log([ell;sf]);
-covfunc={'covSum',{cma,{'covGE','ard',[]}}};
-gamma=1.5;
-hyp.cov=[hypma;log([1;1;(gamma/(2-gamma))])];%best now
+cov={'covSEard'};hyp=log([5;6;5]);
+covfunc=cov;
+% mask = [0,1];
+% cgi = {'covMaternard',3};
+% cma = {'covMask',{mask,cgi}}; hypma = log([1.5;1]);%log([ell;sf]);
+% covfunc={'covSum',{cma,{'covGE','ard',[]}}};
+% gamma=1.5;
+% hyp.cov=[hypma;log([1;1;(gamma/(2-gamma))])];%best now
 %% visualization
 % set(0,'DefaultFigureWindowStyle','docked') ;
 % % 1) query th enumber of parameters

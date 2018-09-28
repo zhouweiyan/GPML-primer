@@ -12,7 +12,7 @@ x=randn(n,D);
 xs=randn(3,D);
 
 %% simple covariance library
-opt=5;
+opt=14;
 switch opt
     case 1
 %         co={'covOne'};
@@ -88,10 +88,10 @@ switch opt
     case 14
 %         cgu={'covSEisoU'};  % k(x,z) = exp(-(x-z)'*inv(P)*(x-z)/2); P=ell^2*I;
 %         ell=1/sqrt(2);hypgu=log(ell);cov=cgu;hyp=hypgu;
-%         cgi={'covSEiso'};   % k(x,z) = sf^2 * exp(-(x-z)'*inv(P)*(x-z)/2)
-%         ell=1;sf=0.5;hypgi=log([ell;sf]);cov=cgi;hyp=hypgi;
-        cga={'covSEard'};
-        L=1;sf=2;hypga=log([L;sf]);cov=cga;hyp=hypga;
+        cgi={'covSEiso'};   % k(x,z) = sf^2 * exp(-(x-z)'*inv(P)*(x-z)/2)
+        ell=1;sf=0.5;hypgi=log([ell;sf]);cov=cgi;hyp=hypgi;
+%         cga={'covSEard'};
+%         L=[0.5;1];sf=2;hypga=log([L;sf]);cov=cga;hyp=hypga;
 %         cgf={'covSE','fact',D}; % including complex part, useless recently
 %         L=randn(2,D);L=L(:);f=ones(D,1);hypf=log([L;f]);cov=cgf;hyp=hypf;
     case 15 
@@ -119,8 +119,8 @@ feval(cov{:})
 % [Ks,dKs]=feval(cov{:},hyp,x,xs)
 
 % 3) plot a draw from the kernel
-n_xstar=64;
-xrange=(1:2:128)';
+n_xstar=71;
+xrange=linspace(-5,5,n_xstar)';
 if D~=1
     [a,b]=meshgrid(xrange);
     xstar=[a(:) b(:)];
@@ -136,7 +136,7 @@ if D~=1
     figure
     surf(a,b,reshape(K0,n_xstar,n_xstar),'EdgeColor','none',...
         'LineStyle','none','FaceLighting','phong');
-    xlabel('x1');ylabel('x2');
+    xlabel('x1');ylabel('x2')
     colormap(jet)
 else
     K1=feval(cov{:},hyp,xrange);
@@ -145,7 +145,4 @@ else
     samples=mvnrnd(zeros(n_xstar,1),K1,n_samples)';
     figure
     plot(xrange,samples);
-    K0=feval(cov{:},hyp,xrange,0);
-    figure
-    plot(xrange,K0);
 end

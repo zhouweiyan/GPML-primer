@@ -7,7 +7,7 @@ clear
 close all
 clc
 opt=1;
-r_end=64*1.48;
+r_end=64*1.6;
 P=r_end*2/(60-1);%P=spiral radius¡Á2/(number of curves-1) eq.(4)
 
 w=120;
@@ -17,10 +17,11 @@ T_spiral=2*pi*r_end/(P*w);	%CAV eq.(6)
 t=0:T:T_spiral;
 xs=P*w/(2*pi)*t.*cos(w*t);	%eq.(17)
 ys=P*w/(2*pi)*t.*sin(w*t);	%eq.(18)
+path_len=sum(sqrt((xs(2:end)-xs(1:(end-1))).^2+(ys(2:end)-ys(1:(end-1))).^2))
 
 plot(xs,ys);
 hold on
-plot([-64,-64,64,64,-64],[-64,64,64,-64,-64],'k--','LineWidth',2);
+plot([-64,-64,64,64,-64],[-64,64,64,-64,-64],'k--','LineWidth',1);
 axis equal
 % axis ([0 128 0 128])
 axis([-r_end r_end -r_end r_end])

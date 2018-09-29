@@ -28,5 +28,5 @@ axis equal;xlim([X0-A/2,X0+A/2]);ylim([Y0-B/2,Y0+B/2])
 plot([0 0 128 128 0],[0 128 128 0 0],'k--','LineWidth',2)
 axis off
 grid off
-tightfig
+% tightfig
 set_fig_units_cm(10,10)

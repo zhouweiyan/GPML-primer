@@ -16,5 +16,5 @@ axis equal
 axis([1 128 1 128])
 axis off
 % set(0,'DefaultFigureWindowStyle','docked') 
-tightfig
+% tightfig
 set_fig_units_cm(6,6)

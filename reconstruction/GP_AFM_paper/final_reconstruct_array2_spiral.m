@@ -8,8 +8,8 @@
 clear
 close all
 % clc
-% opt='GP';
-opt='DT';
+opt='GP';
+% opt='DT';
 load('array2_GP.mat')
 set(0,'DefaultFigureWindowStyle','docked') 
 figure
@@ -115,4 +115,5 @@ colormap(jet)
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal_a(:)))
 PSNR=max(y_test_ideal_a(:))*sqrt(size(y_test_ideal_a,1)*size(y_test_ideal_a,2))/sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))
+PSNR=20*log(PSNR)/log(10)
 

@@ -5,8 +5,8 @@
 clear
 close all
 clc
-% opt='GP';
-opt='DT';
+opt='GP';
+% opt='DT';
 load array2.mat
 figure
 surf(array);colormap(jet)
@@ -84,3 +84,4 @@ zlim([-50,40]);
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal(:)))
 PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2))
+PSNR=20*log(PSNR)/log(10)

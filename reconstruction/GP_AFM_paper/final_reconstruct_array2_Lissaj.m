@@ -24,6 +24,7 @@ xlabel('x1');ylabel('x2');view(3)
 X0=64;Y0=64;
 A=128;B=128;    % A,B represent the range of X,Y respectively
 fx=41;fy=43;
+% fx=27;fy=25;
 f=5000;
 T=1;  %T = lsm(fx,fy)/(fx*fy)
 t=(0:1/f:T)';
@@ -114,6 +115,6 @@ colormap(jet)
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal(:)))
 PSNR=max(y_test_ideal(:))*sqrt(size(y_test_ideal,1)*size(y_test_ideal,2))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2))
-
+PSNR=20*log(PSNR)/log(10)
 
 

@@ -51,7 +51,7 @@ X_train_spi=[x1_train_spi(:),x2_train_spi(:)];
 % visualization
 figure
 [x_temp,y_temp,z_temp]=griddata(x1_train_spi,x2_train_spi,y_train_spi,linspace(min(x1_train_spi),max(x1_train_spi))',linspace(min(x2_train_spi),max(x2_train_spi)),'v4');
-surf(x_temp,y_temp,z_temp)
+surf(x_temp,y_temp,z_temp)%surf(x_temp,y_temp,z_temp,'FaceAlpha',0.1)
 colormap(jet)
 hold on;plot(xs,ys,'+')
 axis equal
@@ -116,4 +116,4 @@ colormap(jet)
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal_a(:)))
 PSNR=max(y_test_ideal_a(:))*sqrt(size(y_test_ideal_a,1)*size(y_test_ideal_a,2))/sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))
-
+PSNR=20*log(PSNR)/log(10)

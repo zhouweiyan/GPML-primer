@@ -6,12 +6,12 @@ clear
 
 load groove1.mat
 figure
-% surf(groove);
-% view(3)
-
 surf(groove,'EdgeColor','none','LineStyle','none','FaceLighting','phong');
-view([0 -90])
-axis off
+view(3)
+
+% surf(groove,'EdgeColor','none','LineStyle','none','FaceLighting','phong');
+% view([0 -90])
+% axis off
 
 colormap(jet)
 axis equal

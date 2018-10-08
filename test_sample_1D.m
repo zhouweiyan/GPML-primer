@@ -43,7 +43,7 @@ title('GP Regression for the 1st time')
 ite=1;
 
 
-while (2*sqrt(M)>0.01)||(ite<100)
+while (2*sqrt(M)>0.01)&&(ite<100)
     ite=ite+1;
     x=[x;x_0(I)];
     y=[y;y_0(I)];

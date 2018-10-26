@@ -2,7 +2,7 @@
 % Reference: I. A. Mahmood, S. O. R. Moheimani, and B. Bhikkaji, ¡°A New Scanning Method for Fast Atomic Force Microscopy,¡± 
 % IEEE Transactions on Nanotechnology, vol. 10, no. 2, pp. 203¨C216, Mar. 2011.
 % combine delaunayTriangulation interpolation and GPR
-% zhouweiyan 20180926
+% zhouweiyan 20181019
 % done
 
 clear
@@ -76,13 +76,6 @@ switch opt
         likfunc='likGauss';hyp.lik=log(0.1);    % log(sn)
         hyp=minimize(hyp,@gp,-80,@infGaussLik,meanfunc,covfunc,likfunc,X_train_spi,y_train_spi);
         [m,s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train_spi,y_train_spi,X_test);
-        figure
-        surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)))
-        colormap(jet)
-        axis equal
-        xlim([1,128]);ylim([1,128]);zlim([-90,40]);
-        xlabel('x1');ylabel('x2');
-        view(3)
     case 'DT'
         P=X_train_spi;
         DT=delaunayTriangulation(P);
@@ -94,14 +87,25 @@ switch opt
         triVals=V(DT(ti,:));
         Vq=dot(bc',triVals')';
         m=Vq;
-        figure
-        surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)))
-        colormap(jet)
-        axis equal
-        xlim([min(x1_train),max(x1_train)]);ylim([min(x2_train),max(x2_train)]);zlim([-90,40]);
-        xlabel('x1');ylabel('x2');
-        view(3)
 end
+%%
+figure
+surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)),'FaceLighting','phong')
+colormap(jet)
+axis equal
+xlim([min(x1_train),max(x1_train)]);ylim([min(x2_train),max(x2_train)]);zlim([-90,40]);
+xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
+view(3)
+x_label=cell(1,length(0:32:128));
+for i=1:length(0:32:128)
+    x_label{i}=32*(i-1)/128*2;
+end
+set(gca,'xtick',0:32:128);
+set(gca,'xticklabel',x_label);
+set(gca,'ytick',0:32:128);
+set(gca,'yticklabel',x_label);
+tightfig
+set_fig_units_cm(10,10)
 %% Error analysis
 range=max(groove(:))-min(groove(:))
 % NRMSD=sqrt(sum(m-y_test_ideal(:)).^2)/range
@@ -110,10 +114,36 @@ range=max(groove(:))-min(groove(:))
 m_a=reshape(m,length(x2_test),length(x1_test));
 m_a=m_a(min(x2_train):max(x2_train),min(x1_train):max(x1_train));
 y_test_ideal_a=y_test_ideal(min(x2_train):max(x2_train),min(x1_train):max(x1_train));
-figure
-surf(y_test_ideal_a-m_a);xlabel('x1');ylabel('x2');zlim([-90,40]);
-colormap(jet)
+% figure
+% surf(y_test_ideal_a-m_a);xlabel('x1');ylabel('x2');zlim([-90,40]);
+% colormap(jet)
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal_a(:)))
 PSNR=max(y_test_ideal_a(:))*sqrt(size(y_test_ideal_a,1)*size(y_test_ideal_a,2))/sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))
 PSNR=20*log(PSNR)/log(10)
+%%
+figure
+surf(y_test_ideal_a-m_a,'EdgeColor','none','LineStyle','none','FaceLighting','phong');   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1); 
+zlim([-90,40]);
+axis equal
+colormap(jet)
+view([-90 90])
+axis tight
+xlabel('x_1/\mum');ylabel('x_2/\mum');
+x_label=cell(1,length(0:32:128));
+y_label=cell(1,length(0:32:128));
+for i=1:length(0:32:128)
+    x_label{i}=32*(i-1)/128*2;
+end
+for i=1:length(0:32:128)
+    y_label{length(0:32:128)+1-i}=32*(i-1)/128*2;
+end
+set(gca,'xtick',0:32:128);
+set(gca,'xticklabel',x_label);
+set(gca,'ytick',0:32:128);
+set(gca,'yticklabel',y_label);
+% tightfig
+
+% caxis([-10,10])
+caxis([-5,5])
+colorbar('eastoutside')

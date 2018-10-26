@@ -1,5 +1,6 @@
-function ObjV=test_objfunc(meanfunc,covfunc,likfunc,hyp_popu,NIND,X_train,y_train,X_test,ns)
+function ObjV=test_objfunc(meanfunc,covfunc,likfunc,hyp_popu,NIND,X_train,y_train,X_test,f_test,ns)
 % test_objfunc(hyp_popu',1,X_train,y_train,X_test,f_test,[length(x1_test) length(x2_test)])
+% usage: test_objfunc(meanfunc,covfunc,likfunc,[trace(1:3)]',1,X_train,y_train,X_test,[length(x1_test) length(x2_test)])
 % 用来分别求解种群中各个个体的目标值
 % 输入
 % hyp_popu:一行代表一组超参数，所有个体的初始值，NIND组超参数的初值ell,sf,sn
@@ -22,8 +23,14 @@ for i=1:NIND
     try
         [m,s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
         surf(reshape(X_test(:,1),ns(2),ns(1)),reshape(X_test(:,2),ns(2),ns(1)),reshape(m,ns(2),ns(1)));
-        surf(reshape(X_test(:,1),ns(2),ns(1)),reshape(X_test(:,2),ns(2),ns(1)),reshape(m+2*sqrt(s2),ns(2),ns(1)),'FaceAlpha',0.1);
-        surf(reshape(X_test(:,1),ns(2),ns(1)),reshape(X_test(:,2),ns(2),ns(1)),reshape(m-2*sqrt(s2),ns(2),ns(1)),'FaceAlpha',0.1);
+        %surf(reshape(X_test(:,1),ns(2),ns(1)),reshape(X_test(:,2),ns(2),ns(1)),reshape(m+2*sqrt(s2),ns(2),ns(1)),'FaceAlpha',0.1);
+        %surf(reshape(X_test(:,1),ns(2),ns(1)),reshape(X_test(:,2),ns(2),ns(1)),reshape(m-2*sqrt(s2),ns(2),ns(1)),'FaceAlpha',0.1);
+        error=f_test-m;
+        figure
+        surf(reshape(X_test(:,1),ns(2),ns(1)),reshape(X_test(:,2),ns(2),ns(1)),reshape(error,ns(2),ns(1)));
+        view([-90 90])
+        title('error');
+        colorbar
     catch
         ObjV(i)=1e15;
         continue

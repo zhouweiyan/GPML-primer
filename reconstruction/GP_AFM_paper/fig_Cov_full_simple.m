@@ -1,4 +1,5 @@
 % demonstrate usage of simple covariance functions
+% describe the shape of simple covariance functions that are used in the paper
 % zhouweiyan 20180928
 clear
 % close all
@@ -88,10 +89,10 @@ switch opt
     case 14
 %         cgu={'covSEisoU'};  % k(x,z) = exp(-(x-z)'*inv(P)*(x-z)/2); P=ell^2*I;
 %         ell=1/sqrt(2);hypgu=log(ell);cov=cgu;hyp=hypgu;
-        cgi={'covSEiso'};   % k(x,z) = sf^2 * exp(-(x-z)'*inv(P)*(x-z)/2)
-        ell=1;sf=0.5;hypgi=log([ell;sf]);cov=cgi;hyp=hypgi;
-%         cga={'covSEard'};
-%         L=[0.3;1];sf=2;hypga=log([L;sf]);cov=cga;hyp=hypga;
+%         cgi={'covSEiso'};   % k(x,z) = sf^2 * exp(-(x-z)'*inv(P)*(x-z)/2)
+%         ell=1;sf=0.5;hypgi=log([ell;sf]);cov=cgi;hyp=hypgi;
+        cga={'covSEard'};
+        L=[0.3;1];sf=2;hypga=log([L;sf]);cov=cga;hyp=hypga;
 %         cgf={'covSE','fact',D}; % including complex part, useless recently
 %         L=randn(2,D);L=L(:);f=ones(D,1);hypf=log([L;f]);cov=cgf;hyp=hypf;
     case 15 

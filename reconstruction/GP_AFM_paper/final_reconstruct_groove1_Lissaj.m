@@ -3,7 +3,7 @@
 % Nanotechnology, vol. 23, no. 18, p. 185501, May 2012.
 % https://ww2.mathworks.cn/help/matlab/ref/unique.html?searchHighlight=unique&s_tid=doc_srchtitle
 % https://ww2.mathworks.cn/help/matlab/ref/uniquetol.html
-% zhouweiyan 20180926
+% zhouweiyan 20181027
 % done
 
 clear
@@ -58,6 +58,25 @@ x1_test=2:127;x2_test=2:127;
 X_test=[X1_test(:),X2_test(:)];
 [y_test_ideal,y_test_s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
 y_test_ideal=reshape(y_test_ideal,length(x2_test),length(x1_test));
+%%
+figure
+f=plot3(x1_train_lisaj(:),x2_train_lisaj(:),y_train_lisaj(:),'.');
+grid on
+axis equal
+xlim([min(x1_train_lisaj),max(x1_train_lisaj)]);ylim([min(x2_train_lisaj),max(x2_train_lisaj)]);zlim([-90,40]);
+xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
+% view(3)
+view(-45,50)
+x_label=cell(1,length(0:32:128));
+for i=1:length(0:32:128)
+    x_label{i}=32*(i-1)/128*2;
+end
+set(gca,'xtick',0:32:128);
+set(gca,'xticklabel',x_label);
+set(gca,'ytick',0:32:128);
+set(gca,'yticklabel',x_label);
+tightfig
+set_fig_units_cm(10,10)
 %% GP regression/DT linear interplotation
 switch opt
     case 'GP'

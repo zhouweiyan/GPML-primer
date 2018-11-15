@@ -62,7 +62,25 @@ y_test_ideal=reshape(y_test_ideal,length(x2_test),length(x1_test));
 
 [X_train_lisaj,ia,ic]=uniquetol(X_train_lisaj,'ByRows',true);
 y_train_lisaj=y_train_lisaj(ia);
-
+%%
+figure
+f=plot3(X_train_lisaj(:,1),X_train_lisaj(:,2),y_train_lisaj(:),'.');
+grid on
+axis equal
+xlim([min(x1_train_lisaj),max(x1_train_lisaj)]);ylim([min(x2_train_lisaj),max(x2_train_lisaj)]);zlim([-90,40]);
+xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
+% view(3)
+view(-45,50)
+x_label=cell(1,length(0:32:128));
+for i=1:length(0:32:128)
+    x_label{i}=32*(i-1)/128*2;
+end
+set(gca,'xtick',0:32:128);
+set(gca,'xticklabel',x_label);
+set(gca,'ytick',0:32:128);
+set(gca,'yticklabel',x_label);
+tightfig
+set_fig_units_cm(10,10)
 %% GP regression/DT linear interplotation
 switch opt
     case 'GP'

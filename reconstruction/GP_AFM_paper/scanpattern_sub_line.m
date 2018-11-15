@@ -7,7 +7,8 @@ clear
 close all
 clc
 figure
-for i=2:4:128
+for i=2:1:128
+% for i=1:128
     plot([1,128],[i,i],'Color',[0 0.4470 0.7410]);
     hold on
 end
@@ -17,4 +18,4 @@ axis([1 128 1 128])
 axis off
 % set(0,'DefaultFigureWindowStyle','docked') 
 % tightfig
-set_fig_units_cm(6,6)
+% set_fig_units_cm(6,6)

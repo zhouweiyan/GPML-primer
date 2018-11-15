@@ -41,7 +41,7 @@ likfunc=@likGauss;
 ell=0.5; sf=1;
 hyp2.cov =log([ell;sf]); hyp2.lik = log(0.1);
 hyp2 = minimize(hyp2, @gp, -100, @infGaussLik, [], covfunc, likfunc, x, y);
-disp(['exp(hyp2.lik)=',exp(hyp2.lik)])
+disp(['exp(hyp2.lik)=',num2str(exp(hyp2.lik))])
 nlml2 = gp(hyp2, @infGaussLik, [], covfunc, likfunc, x, y)
 [m,s2] = gp(hyp2, @infGaussLik, [], covfunc, likfunc, x, y, z);
 figure

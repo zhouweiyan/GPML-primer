@@ -1,12 +1,12 @@
 % isotropic/unisotropic undersampling
 % combine delaunayTriangulation interpolation and GPR
-% zhouweiyan 20181019
+% zhouweiyan 20181027
 % done
 clear
 % close all
 clc
-% opt='GP';
-opt='DT';
+opt='GP';
+% opt='DT';
 load groove1.mat
 figure
 surf(groove);colormap(jet)
@@ -33,6 +33,25 @@ x1_test=min(x1_train):max(x1_train);x2_test=min(x2_train):max(x2_train);
 X_test=[X1_test(:),X2_test(:)];
 y_test_ideal=groove(x2_test,x1_test);
 
+%%
+figure
+f=plot3(X1_train(:),X2_train(:),y_train(:),'.');
+grid on
+axis equal
+xlim([min(x1_train),max(x1_train)]);ylim([min(x2_train),max(x2_train)]);zlim([-90,40]);
+xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
+% view(3)
+view(-45,50)
+x_label=cell(1,length(0:32:128));
+for i=1:length(0:32:128)
+    x_label{i}=32*(i-1)/128*2;
+end
+set(gca,'xtick',0:32:128);
+set(gca,'xticklabel',x_label);
+set(gca,'ytick',0:32:128);
+set(gca,'yticklabel',x_label);
+tightfig
+set_fig_units_cm(10,10)
 %% GP regression/DT linear interplotation
 switch opt
     case 'GP'
@@ -61,7 +80,8 @@ colormap(jet)
 axis equal
 xlim([min(x1_train),max(x1_train)]);ylim([min(x2_train),max(x2_train)]);zlim([-90,40]);
 xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
-view(3)
+% view(3)
+view(-45,50)
 x_label=cell(1,length(0:32:128));
 for i=1:length(0:32:128)
     x_label{i}=32*(i-1)/128*2;

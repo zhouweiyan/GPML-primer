@@ -60,6 +60,25 @@ x1_test=1:128;x2_test=1:128;
 X_test=[X1_test(:),X2_test(:)];
 [y_test_ideal,y_test_s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
 y_test_ideal=reshape(y_test_ideal,length(x2_test),length(x1_test));
+%%
+figure
+f=plot3(x1_train_spi(:),x2_train_spi(:),y_train_spi(:),'.');
+grid on
+axis equal
+xlim([min(x1_train_spi),max(x1_train_spi)]);ylim([min(x2_train_spi),max(x2_train_spi)]);zlim([-50,40]);
+xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
+% view(3)
+view(-45,50)
+x_label=cell(1,length(0:32:128));
+for i=1:length(0:32:128)
+    x_label{i}=32*(i-1)/128*2;
+end
+set(gca,'xtick',0:32:128);
+set(gca,'xticklabel',x_label);
+set(gca,'ytick',0:32:128);
+set(gca,'yticklabel',x_label);
+tightfig
+set_fig_units_cm(10,10)
 %% GP regression/DT linear interplotation
 switch opt
     case 'GP'

@@ -12,7 +12,7 @@ opt='GP';
 % opt='DT';
 load('groove1_GP.mat')
 set(0,'DefaultFigureWindowStyle','docked') 
-figure
+figure;
 surf(groove);colormap(jet)
 % view([0 -90])
 axis equal
@@ -67,7 +67,7 @@ X_test=[X1_test(:),X2_test(:)];
 [y_test_ideal,y_test_s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
 y_test_ideal=reshape(y_test_ideal,length(x2_test),length(x1_test));
 %%
-figure
+figure;
 f=plot3(x1_train_spi(:),x2_train_spi(:),y_train_spi(:),'.');
 grid on
 axis equal
@@ -108,7 +108,7 @@ switch opt
         m=Vq;
 end
 %%
-figure
+figure;
 surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)),'FaceLighting','phong')
 colormap(jet)
 axis equal

@@ -1,5 +1,5 @@
 % isotropic/unisotropic undersampling
-% x1 change horizontally, x2 change vertically,e.g.(x2,x1)
+% x1 change horizontally, x2 change vertically,i.e.(x2,x1)
 % (1,1) (1,2) (1,3)... 
 % (2,1) (2,2) (2,3)...
 % zhouweiyan 20180915

@@ -39,6 +39,7 @@ if opt==2
     xs=fliplr(xs_0);
     ys=fliplr(ys_0);
 end
+%%
 plot(xs,ys,'*')
 hold on
 plot([1,1,128,128,1],[1,128,128,1,1],'--');

@@ -17,7 +17,7 @@ xlabel('x1');ylabel('x2');view(-45,50)
 
 %% data preparation
 % train set
-x1_train=2:6:128; x2_train=1:128;
+x1_train=2:12:128; x2_train=1:128;
 [X1_train,X2_train]=meshgrid(x1_train,x2_train);
 X_train=[X1_train(:),X2_train(:)];
 y_train=groove(x2_train,x1_train);

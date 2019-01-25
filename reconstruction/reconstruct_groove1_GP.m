@@ -4,8 +4,8 @@
 % (2,1) (2,2) (2,3)...
 % zhouweiyan 20180915
 clear
-% close all
-% clc
+close all
+clc
 load groove1.txt
 groove=reshape(groove1,256,256);
 figure

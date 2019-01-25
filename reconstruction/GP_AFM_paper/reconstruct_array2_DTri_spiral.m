@@ -58,8 +58,6 @@ plot(xs,ys)
 % approximate path
 path_len=sum(sqrt((x1_train_spi(2:end)-x1_train_spi(1:(end-1))).^2+(x2_train_spi(2:end)-x2_train_spi(1:(end-1))).^2))
 
-
-
 % test set
 x1_test=1:128;x2_test=1:128;
 [X1_test,X2_test]=meshgrid(x1_test,x2_test);

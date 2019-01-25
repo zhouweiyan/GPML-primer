@@ -1,0 +1,8 @@
+.sfit来自于matlab curve fitting工具箱，曲面拟合。
+
+workflow:
+.m: pre_post_surface
+	post: 生成了s20_outliers_manually.mat
+
+_0.fig: 由原始的sensy,sensx,dfl对应(x,y,z)画出来的。z的对应没有问题，其他两个可能会互换。
+_1.fig: 由pre_.m处理过得到的结果

@@ -12,11 +12,11 @@ P=-2.5+5*gallery('uniformdata',[9,2],0);    % 2D scatter
 DT=delaunayTriangulation(P)
 triplot(DT)
 hold on
-IC=incenter(DT);
-plot(IC(:,1),IC(:,2),'r^')
+IC=incenter(DT)
+figure,plot(IC(:,1),IC(:,2),'r^')
 V=P(:,1).^2+P(:,2).^2;
 Pq=-2+4*gallery('uniformdata',[3 2],0);
-plot(Pq(:,1),Pq(:,2),'*')
+figure,plot(Pq(:,1),Pq(:,2),'*')
 ground_truth=Pq(:,1).^2+Pq(:,2).^2   % ground truth
 %% nearest neighbor interpolation
 vi=nearestNeighbor(DT,Pq);

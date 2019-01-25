@@ -1,8 +1,8 @@
 % delaunayTriangulation interpolation
 % zhouweiyan 20180925
 clear
-% close all
-% clc
+close all
+clc
 load groove1.txt
 groove=reshape(groove1,256,256);
 figure

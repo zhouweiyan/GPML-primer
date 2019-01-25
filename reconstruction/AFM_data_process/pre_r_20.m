@@ -34,13 +34,21 @@ z_roi_1 = z_roi_0 - fit1(ind);
 %% period 2: fine
 fit2 = fit(ind, z_roi_1, 'fourier4');
 z_roi_2 = z_roi_1 - fit2(ind);
-z = z_roi_2;
-% figure, plot(ind, z)
 
 x_origin = r20.Y(4).Data; x_origin = x_origin';
 y_origin = r20.Y(3).Data; y_origin = y_origin';
-x = x_origin(83801:(83800+dot_sum));
-y = y_origin(83801:(83800+dot_sum));
+x_roi = x_origin(83801:(83800+dot_sum));
+y_roi = y_origin(83801:(83800+dot_sum));
+
+segments = floor((length(x_roi)-510)/1000);
+% analyze the x-signal manually, choose the decline part as the reserved part
+x = []; y = []; z = [];
+for k = 0:segments
+    x = [x; x_roi(1000*k+1:(510+1000*k))];
+    y = [y; y_roi(1000*k+1:(510+1000*k))];
+    z = [z; z_roi_2(1000*k+1:(510+1000*k))];
+end
+
 scatter3(x, y, z*100,5,z*100,'.')
 % clearvars -except x y z
 

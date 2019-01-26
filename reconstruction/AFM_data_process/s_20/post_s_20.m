@@ -28,7 +28,7 @@ end
 for i = 1:len
     for j = 1:length(s20_above_outliers2)
         if x(i)==s20_above_outliers2(j,1) && y(i)==s20_above_outliers2(j,2)
-            z(i) = 0.216/100;
+            z(i) = (0.12 + 0.1*rand)/100;
         end
     end
 end

@@ -3,13 +3,13 @@
 % 
 % choose half of the data: trace or retrace
 %
-% zwy 20190125
+% zwy 20190125 night, done
 
 clear
 close all
 clc
 
-addpath('./20190121_tyd');
+addpath('E:/OneDrive - hnu.edu.cn/tools/matlabcourse/GPML_matlab/GPML-primer/reconstruction/AFM_data_process/20190121_tyd');
 load r20.mat
 z_origin = r20.Y(1).Data; z_origin = z_origin';
 

@@ -1,8 +1,18 @@
 .sfit来自于matlab curve fitting工具箱，曲面拟合。
 
-workflow:
+workflow
 .m: pre_post_surface
-	post: 生成了s20_outliers_manually.mat
+	pre: 手动选择._outliers_manually.mat
+	post: 生成了._processed_datapoints.mat
+	surface
 
+figures
 _0.fig: 由原始的sensy,sensx,dfl对应(x,y,z)画出来的。z的对应没有问题，其他两个可能会互换。
 _1.fig: 由pre_.m处理过得到的结果
+
+._m_denoise.mat来自于Wavelet Signal Denoiser toolbox，参数写在对应的surface.m中
+
+尺度转换系数
+%       signal<--> reality
+% x/y:  0.04  <--> 3um
+% z:    10^-3 <--> 1nm

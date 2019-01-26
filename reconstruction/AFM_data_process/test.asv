@@ -1,6 +1,0 @@
-segments = floor((length(x)-510)/1000);
-% analyze the x-signal manually, choose the decline part as the reserved part
-x = [];
-for k = 0:segments
-    x = [x; x_roi(1000*k)];
-    

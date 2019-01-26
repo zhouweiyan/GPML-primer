@@ -21,7 +21,7 @@ f = fit([x, y], z, ft, 'Normalize','on');
 figure; plot(f, [x,y],z)
 %% eliminate the whole tendency
 clearvars -except f
-addpath('./20190121_tyd');
+addpath('E:/OneDrive - hnu.edu.cn/tools/matlabcourse/GPML_matlab/GPML-primer/reconstruction/AFM_data_process/20190121_tyd');
 load s20.mat
 z_origin = s20.Y(1).Data; z_origin = z_origin';
 x_origin = s20.Y(4).Data; x_origin = x_origin';

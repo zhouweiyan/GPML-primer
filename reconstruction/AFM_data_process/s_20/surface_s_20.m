@@ -42,7 +42,7 @@ for i = 1:length(nan_flags)
               (X1_test_vec(i)>0.10&&X1_test_vec(i)<0.12)
           m(i) = 0.216/100*rand;
       else
-          m(i) = 0.07/100*(rand-1);
+          m(i) = 0.1/100*(rand-1);
       end
    end
 end
@@ -56,7 +56,7 @@ scatter3(X1_test(:), X2_test(:), m,5,m*100,'.') % rectangular
 load s20_m_denoise.mat
 m = reshape(m_denoise,length(x2_test),length(x1_test));
 m(nan_flags) = NaN; % circular roi
-figure,surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)),'EdgeColor','none')
+figure,surf(X1_test./0.04*3,X2_test./0.04*3,reshape(m.*10^4,length(x2_test./0.04*3),length(x1_test./0.04*3)),'EdgeColor','none')
 colormap(copper)
 axis equal; xlabel('x'); ylabel('y'); view([0 90])
 view([0 -90])

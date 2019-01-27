@@ -8,8 +8,8 @@
 clear
 close all
 clc
-% opt='GP';
-opt='DT';
+opt='GP';
+% opt='DT';
 load('groove1_GP.mat')
 set(0,'DefaultFigureWindowStyle','docked') 
 figure;
@@ -166,3 +166,11 @@ set(gca,'yticklabel',y_label);
 % caxis([-10,10])
 caxis([-5,5])
 colorbar('eastoutside')
+
+
+
+
+
+
+
+

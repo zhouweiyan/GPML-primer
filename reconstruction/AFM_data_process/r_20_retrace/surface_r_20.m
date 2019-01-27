@@ -55,6 +55,7 @@ axis equal; xlabel('x'); ylabel('y'); view([0 90])
 % z:    10^-3 <--> 1nm
 m = m(:)*10^3;
 x = X1_test(:)/0.04*3; y = X2_test(:)/0.04*3;
+% NaNs are deleted and scaled
 save r20_processed_delete_NaN.mat x y m
 
 

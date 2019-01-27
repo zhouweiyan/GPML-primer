@@ -1,0 +1,42 @@
+% reconstruct complex morphology
+% zwy 20190127
+
+clear
+close all
+clc
+Corrosion = imread('Corrosion.bmp');
+f = double(rgb2gray(Corrosion)); f = f(373:500,1:128);
+% f = imresize(I, [128, 128]);
+set(0,'DefaultFigureWindowStyle','docked') 
+figure, surf(f, 'EdgeColor', 'None'); 
+colormap(jet); axis equal; 
+xlabel('x1'); ylabel('x2'); view([0 -90])
+%% data preparation
+% train set
+x1_train = 1:128; x2_train = 1:128;
+[X1_train,X2_train]=meshgrid(x1_train,x2_train);
+X_train=[X1_train(:),X2_train(:)];
+y_train=f(x2_train,x1_train); y_train=y_train(:);
+figure
+surf(X1_train,X2_train,reshape(y_train,length(x2_train),length(x1_train)),...
+    'EdgeColor', 'None'); 
+colormap(copper); axis equal; 
+xlabel('x1'); ylabel('x2'); view([0 -90])
+% test set
+x1_test = 1:0.5:128; x2_test = 1:0.5:128;
+[X1_test,X2_test]=meshgrid(x1_test,x2_test);
+X_test=[X1_test(:),X2_test(:)];
+%% GP
+meanfunc = []; hyp.mean = [];
+covfunc = {'covSEard'}; hyp.cov = log([5;7;9]);
+likfunc = {'likGauss'}; hyp.lik = log(0.1);
+hyp=minimize(hyp,@gp,-80,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train);
+[m,s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
+figure
+surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)),'EdgeColor', 'None'); 
+colormap(copper); axis equal; 
+xlabel('x1'); ylabel('x2'); view([0 -90])
+
+
+
+

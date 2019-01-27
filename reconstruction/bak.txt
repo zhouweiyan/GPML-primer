@@ -1,1 +1,4 @@
 论文中使用的是groove1, array2, array4
+
+update
+part1：调整colorbar和scale

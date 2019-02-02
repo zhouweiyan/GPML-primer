@@ -12,7 +12,7 @@ x=randn(n,D);
 xs=randn(3,D);
 
 %% present composite covariance library
-opt=7;
+opt=5;
 switch opt
     case 1  % ADD
         %cad={'covADD',{1,{'covMaternard',5}}};  

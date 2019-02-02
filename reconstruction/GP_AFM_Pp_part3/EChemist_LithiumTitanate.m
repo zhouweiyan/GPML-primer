@@ -3,12 +3,12 @@
 % zwy 20190131
 
 clear
-close all
-clc
-% opt='GP';
-opt='DT';
-Obj = imread('Corrosion.bmp');
-f = rgb2gray(double(Obj)/255)*255; f = f(373:500,1:128);
+% close all
+% clc
+opt='GP';
+% opt='DT';
+Obj = imread('LithiumTitanate.bmp');
+f = rgb2gray(double(Obj)/255)*255; f = f(1:128,1:128);
 set(0,'DefaultFigureWindowStyle','docked') 
 figure, surf(f, 'EdgeColor', 'None'); 
 colormap(jet); axis equal; 

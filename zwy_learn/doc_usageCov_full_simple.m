@@ -63,12 +63,12 @@ switch opt
 %         clo={'covLINone'};    % K=(x*x'+1)/ell^2;
 %         ell=0.9;hyplo=log(ell);cov=clo;hyp=hyplo;
     case 7
-%         cmi={'covMaterniso',3}; 
-%         L=0.5;sf=2;hypmi=log([L;sf]);  cov=cmi;hyp=hypmi;
+        cmi={'covMaterniso',3}; 
+        L=0.5;sf=2;hypmi=log([L;sf]);  cov=cmi;hyp=hypmi;
         % f = @(d, t)(d==1)*t+(d==3)*(1+t)+(d==5)*(1+t+t^2/3); 
         % x1=x(1,:)'; x2=x(2,:)'; r=sqrt((x1-x2)'*L^(-2)*(x1-x2)); d=3; sf^2*f(d,sqrt(d)*r)*exp(-sqrt(d)*r)
-        cma={'covMaternard',5};
-        L=[4;2];sf=3;hypma=log([L;sf]); cov=cma;hyp=hypma;
+%         cma={'covMaternard',5};
+%         L=[4;2];sf=3;hypma=log([L;sf]); cov=cma;hyp=hypma;
         % r=sqrt((x1-x2)'*(diag(L))^(-2)*(x1-x2)); d=5;
     case 8
         cn={'covNoise'};% k(x^p,x^q) = sf^2 * \delta(p,q); [varargout{:}] = covScale({'covEye'},varargin{:});
@@ -166,9 +166,8 @@ feval(cov{:})
 
 % 3) plot a draw from the kernel
 
-% n_xstar=71;
-% xrange=linspace(-5,5,n_xstar)';
-xrange=1:128; n_xstar=128;
+n_xstar=71;
+xrange=linspace(-5,5,n_xstar)';
 if D~=1
     [a,b]=meshgrid(xrange);
     xstar=[a(:) b(:)];

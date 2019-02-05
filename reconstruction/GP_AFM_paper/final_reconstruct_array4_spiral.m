@@ -2,22 +2,22 @@
 % Reference: I. A. Mahmood, S. O. R. Moheimani, and B. Bhikkaji, ¡°A New Scanning Method for Fast Atomic Force Microscopy,¡± 
 % IEEE Transactions on Nanotechnology, vol. 10, no. 2, pp. 203¨C216, Mar. 2011.
 % combine delaunayTriangulation interpolation and GPR
-% zhouweiyan 20190127
+% zhouweiyan 20190127, 20190205
 % done
 
 clear
 close all
-load('array4_GP.mat')
 % clc
+load('array4_GP.mat')
 % opt='GP';
 opt='DT';
-set(0,'DefaultFigureWindowStyle','docked') 
+set(0,'DefaultFigureWindowStyle','docked')  % keep figures tidy
 figure;
 surf(array);colormap(jet)
 % view([0 -90])
 axis equal
-xlim([1,128]);ylim([1,128]);zlim([-5,5]);
-xlabel('x1');ylabel('x2');view(3)
+xlim([1,128]);ylim([1,128]);zlim([-20,20]);
+xlabel('x1');ylabel('x2');view(-45,50)
 %% Constant Angular Velocity(CAV)
 r_end=64*1.6;
 P=r_end*2/(60-1);

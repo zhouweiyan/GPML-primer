@@ -3,7 +3,7 @@
 % 
 % choose half of the data: trace or retrace
 %
-% zwy 20190125 night, done
+% zwy 20190125 night, done; 20190204
 
 clear
 close all
@@ -49,8 +49,8 @@ for k = 0:segments
     z = [z; z_roi_2(1000*k+1:(510+1000*k))];
 end
 
-scatter3(x, y, z*100,5,z*100,'.')
-% clearvars -except x y z
+scatter3(x, y, z*100,5,z*100,'.')   
+clearvars -except x y z
 
 
 

@@ -15,7 +15,6 @@ clear
 % load LifeSci_DiatomsScan_216_GP.mat       %
 load LifeSci_ThalassiosiraPseudonana_128_filter_GP.mat 
 % load MaterialSci_ProbeOxidationonSiliconSubstrate_128_GP.mat  %
-% load MaterialSci_AtomicLattice_GP.mat     %
 % load MaterialSci_AlSurfaceEtched_216_GP.mat
 
 opt='GP';

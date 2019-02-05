@@ -7,11 +7,11 @@
 
 clear
 close all
-% clc
+clc
 %% surface fitting
 load s20_plane_below.txt    
-% s20_plane_below.txt is processed with polyworks. Only the points that
-% belong to the below plane is saved.
+% s20_plane_below.txt is processed with Polyworks2016. Only the points that
+% belong to the below plane are saved.
 x = s20_plane_below(:,1);
 y = s20_plane_below(:,2);
 z = s20_plane_below(:,3);

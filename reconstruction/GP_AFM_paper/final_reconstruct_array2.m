@@ -22,7 +22,8 @@ X_train=[X1_train(:),X2_train(:)];
 y_train=array(x2_train,x1_train);
 y_train=y_train(:);
 figure
-surf(X1_train,X2_train,reshape(y_train,length(x2_train),length(x1_train)));colormap(jet)
+surf(X1_train,X2_train,reshape(y_train,length(x2_train),length(x1_train)));
+colormap(jet)
 axis equal
 xlim([1,128]);ylim([1,128]);zlim([-50,40]);
 xlabel('x1');ylabel('x2');view(3)
@@ -49,7 +50,7 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+% tightfig
 set_fig_units_cm(10,10)
 %% GP regression/DT linear interplotation
 switch opt
@@ -103,9 +104,12 @@ range=max(array(:))-min(array(:));
 
 m_a=reshape(m,length(x2_test),length(x1_test));
 
-NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range
-max(abs(m_a(:)-y_test_ideal(:)))
-PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2))
+abs(min(y_test_ideal(:)-m_a(:)))
+abs(max(y_test_ideal(:)-m_a(:)))
+
+NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range;
+max(abs(m_a(:)-y_test_ideal(:)));
+PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2));
 PSNR=20*log(PSNR)/log(10)
 %%
 figure

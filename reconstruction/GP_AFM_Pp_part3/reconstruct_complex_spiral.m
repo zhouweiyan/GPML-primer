@@ -6,14 +6,14 @@ clear
 % close all
 % clc
 
-% load EChemist_Corrosion_GP.mat
+load EChemist_Corrosion_GP.mat
 % load EChemist_LithiumTitanate_GP.mat
 % load EMaterial_Bi_SN_alloy_216_GP.mat     %
 % load EMaterial_F12H20_on_MoS2_128_GP.mat  %
 % load EMaterial_KFM_GP.mat 
 % load MaterialSci_AtomicLattice_GP.mat     %
 % load LifeSci_DiatomsScan_216_GP.mat       %
-load LifeSci_ThalassiosiraPseudonana_128_filter_GP.mat 
+% load LifeSci_ThalassiosiraPseudonana_128_filter_GP.mat 
 % load MaterialSci_ProbeOxidationonSiliconSubstrate_128_GP.mat  %
 % load MaterialSci_AlSurfaceEtched_216_GP.mat
 

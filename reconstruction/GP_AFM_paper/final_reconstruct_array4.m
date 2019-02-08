@@ -96,7 +96,9 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+ax = gca;
+ax.FontSize = 14;
+% tightfig
 set_fig_units_cm(10,10)
 %% Error analysis
 range=max(array(:))-min(array(:));
@@ -106,10 +108,12 @@ abs(min(y_test_ideal(:)-m_a(:)))
 abs(max(y_test_ideal(:)-m_a(:)))
 PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2));
 PSNR=20*log(PSNR)/log(10)
+
+sigma = sqrt(sum(s2(:))/length(s2(:)))
 %%
 figure
 surf(y_test_ideal-m_a,'EdgeColor','none','LineStyle','none','FaceLighting','phong');   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1); 
-zlim([-50,40]);
+zlim([-20,20]);
 axis equal
 colormap(jet)
 view([-90 90])
@@ -127,10 +131,12 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',y_label);
+ax = gca;
+ax.FontSize = 14;
 % tightfig
 
 % caxis([-10,10])
-caxis([0,5])
+caxis([-2,2])
 colorbar('eastoutside')
 % set(gca,'CLim',[-10,10])
 

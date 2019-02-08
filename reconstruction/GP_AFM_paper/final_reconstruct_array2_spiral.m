@@ -7,7 +7,7 @@
 
 clear
 close all
-% clc
+clc
 opt='GP';
 % opt='DT';
 load('array2_GP.mat')
@@ -77,7 +77,7 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+% tightfig
 set_fig_units_cm(10,10)
 %% GP regression/DT linear interplotation
 switch opt
@@ -125,7 +125,9 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+ax = gca;
+ax.FontSize = 14;
+% tightfig
 set_fig_units_cm(10,10)
 %% Error analysis
 range=max(array(:))-min(array(:))
@@ -139,6 +141,8 @@ NRMSD=sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal_a(:)))
 PSNR=max(y_test_ideal_a(:))*sqrt(size(y_test_ideal_a,1)*size(y_test_ideal_a,2))/sqrt(sum((m_a(:)-y_test_ideal_a(:)).^2))
 PSNR=20*log(PSNR)/log(10)
+
+sigma = sqrt(sum(s2(:))/length(s2(:)))
 %%
 figure
 surf(y_test_ideal_a-m_a,'EdgeColor','none','LineStyle','none','FaceLighting','phong');   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1); 
@@ -160,7 +164,8 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',y_label);
-% tightfig
+ax = gca;
+ax.FontSize = 14;
 
 % caxis([-10,10])
 caxis([-5,5])

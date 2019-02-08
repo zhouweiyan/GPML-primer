@@ -8,16 +8,16 @@
 
 clear
 close all
-% clc
+clc
 load('array4_GP.mat')
-% opt='GP';
-opt='DT';
+opt='GP';
+% opt='DT';
 set(0,'DefaultFigureWindowStyle','docked') 
 figure;
 surf(array);colormap(jet)
 % view([0 -90])
 axis equal
-xlim([1,128]);ylim([1,128]);zlim([-50,40]);
+xlim([1,128]);ylim([1,128]);zlim([-20,20]);
 xlabel('x1');ylabel('x2');view(3)
 
 %% Lissajous scan trajectory
@@ -67,7 +67,8 @@ figure;
 f=plot3(X_train_lisaj(:,1),X_train_lisaj(:,2),y_train_lisaj(:),'.');
 grid on
 axis equal
-xlim([min(x1_train_lisaj),max(x1_train_lisaj)]);ylim([min(x2_train_lisaj),max(x2_train_lisaj)]);zlim([-90,40]);
+xlim([min(x1_train_lisaj),max(x1_train_lisaj)]);ylim([min(x2_train_lisaj),max(x2_train_lisaj)]);
+zlim([-20,20]);
 xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
 % view(3)
 view(-45,50)
@@ -79,7 +80,8 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+
+% tightfig
 set_fig_units_cm(10,10)
 %% GP regression/DT linear interplotation
 switch opt
@@ -113,7 +115,7 @@ figure;
 surf(X1_test,X2_test,reshape(m,length(x2_test),length(x1_test)),'FaceLighting','phong')
 colormap(jet)
 axis equal
-xlim([min(x1_train),max(x1_train)]);ylim([min(x2_train),max(x2_train)]);zlim([-50,40]);
+xlim([min(x1_train),max(x1_train)]);ylim([min(x2_train),max(x2_train)]);zlim([-20,20]);
 xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
 % view(3)
 view(-45,50)
@@ -125,7 +127,9 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+ax = gca;
+ax.FontSize = 14;
+% tightfig
 set_fig_units_cm(10,10)
 %% Error analysis
 range=max(array(:))-min(array(:))
@@ -134,14 +138,17 @@ range=max(array(:))-min(array(:))
 
 m_a=reshape(m,length(x2_test),length(x1_test));
 
-NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range
-max(abs(m_a(:)-y_test_ideal(:)))
+NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range;
+abs(min(y_test_ideal(:)-m_a(:)))
+abs(max(y_test_ideal(:)-m_a(:)))
 PSNR=max(y_test_ideal(:))*sqrt(size(y_test_ideal,1)*size(y_test_ideal,2))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2));
 PSNR=20*log(PSNR)/log(10)
+
+sigma = sqrt(sum(s2(:))/length(s2(:)))
 %%
 figure;
 surf(y_test_ideal-m_a,'EdgeColor','none','LineStyle','none','FaceLighting','phong');   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1); 
-zlim([-90,40]);
+zlim([-20,20]);
 colormap(jet)
 view([-90 90])
 axis tight
@@ -158,10 +165,12 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',y_label);
+ax = gca;
+ax.FontSize = 14;
 % tightfig
 
 % caxis([-10,10])
-caxis([-5,5])
+caxis([-2,2])
 colorbar('eastoutside')
 % set(gca,'CLim',[-10,10])
 

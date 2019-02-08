@@ -2,13 +2,14 @@
 % combine delaunayTriangulation interpolation and GPR
 % zhouweiyan 20180926
 % done
+
 clear
 close all
 clc
 % opt='GP';
 opt='DT';
 load array2.mat
-figure
+figure;
 surf(array);colormap(jet)
 % view([0 -90])
 axis equal
@@ -21,7 +22,7 @@ x1_train=2:4:128; x2_train=1:1:128;
 X_train=[X1_train(:),X2_train(:)];
 y_train=array(x2_train,x1_train);
 y_train=y_train(:);
-figure
+figure;
 surf(X1_train,X2_train,reshape(y_train,length(x2_train),length(x1_train)));
 colormap(jet)
 axis equal
@@ -34,7 +35,7 @@ x1_test=min(x1_train):max(x1_train);x2_test=min(x2_train):max(x2_train);
 X_test=[X1_test(:),X2_test(:)];
 y_test_ideal=array(x2_test,x1_test);
 %%
-figure
+figure;
 f=plot3(X1_train(:),X2_train(:),y_train(:),'.');
 grid on
 axis equal
@@ -95,7 +96,9 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+ax = gca;
+ax.FontSize = 14;
+% tightfig
 set_fig_units_cm(10,10)
 %% Error analysis
 range=max(array(:))-min(array(:));
@@ -108,9 +111,13 @@ abs(min(y_test_ideal(:)-m_a(:)))
 abs(max(y_test_ideal(:)-m_a(:)))
 
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range;
-max(abs(m_a(:)-y_test_ideal(:)));
-PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2));
+abs(max(m_a(:)-y_test_ideal(:)))
+abs(min(m_a(:)-y_test_ideal(:)))
+
+PSNR=max(y_test_ideal(:))*sqrt(length(x1_test)*length(x2_test))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2))
 PSNR=20*log(PSNR)/log(10)
+
+% sigma = sqrt(sum(s2(:))/length(s2(:)))
 %%
 figure
 surf(y_test_ideal-m_a,'EdgeColor','none','LineStyle','none','FaceLighting','phong');   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1); 
@@ -132,6 +139,10 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',y_label);
+% set(gca, 'xtick', [], 'xticklabel', []);
+% set(gca, 'ytick', [], 'yticklabel', []);
+ax = gca;
+ax.FontSize = 16;
 % tightfig
 
 % caxis([-10,10])

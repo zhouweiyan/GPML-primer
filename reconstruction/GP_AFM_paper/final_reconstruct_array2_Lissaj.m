@@ -8,9 +8,9 @@
 
 clear
 close all
-% clc
-opt='GP';
-% opt='DT';
+clc
+% opt='GP';
+opt='DT';
 load('array2_GP.mat')
 set(0,'DefaultFigureWindowStyle','docked') 
 figure
@@ -67,7 +67,8 @@ figure
 f=plot3(X_train_lisaj(:,1),X_train_lisaj(:,2),y_train_lisaj(:),'.');
 grid on
 axis equal
-xlim([min(x1_train_lisaj),max(x1_train_lisaj)]);ylim([min(x2_train_lisaj),max(x2_train_lisaj)]);zlim([-90,40]);
+xlim([min(x1_train_lisaj),max(x1_train_lisaj)]);ylim([min(x2_train_lisaj),max(x2_train_lisaj)]);
+zlim([-50,40]);
 xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
 % view(3)
 view(-45,50)
@@ -79,7 +80,7 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+% tightfig
 set_fig_units_cm(10,10)
 %% GP regression/DT linear interplotation
 switch opt
@@ -125,7 +126,9 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',x_label);
-tightfig
+ax = gca;
+ax.FontSize = 14;
+% tightfig
 set_fig_units_cm(10,10)
 %% Error analysis
 range=max(array(:))-min(array(:))
@@ -136,8 +139,10 @@ m_a=reshape(m,length(x2_test),length(x1_test));
 
 NRMSD=sqrt(sum((m_a(:)-y_test_ideal(:)).^2))/range
 max(abs(m_a(:)-y_test_ideal(:)))
-PSNR=max(y_test_ideal(:))*sqrt(size(y_test_ideal,1)*size(y_test_ideal,2))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2))
+PSNR=max(y_test_ideal(:))*sqrt(size(y_test_ideal,1)*size(y_test_ideal,2))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2));
 PSNR=20*log(PSNR)/log(10)
+
+sigma = sqrt(sum(s2(:))/length(s2(:)))
 %%
 figure
 surf(y_test_ideal-m_a,'EdgeColor','none','LineStyle','none','FaceLighting','phong');   % surf(y_test_ideal_a-m_a,'FaceAlpha',0.1); 
@@ -158,6 +163,8 @@ set(gca,'xtick',0:32:128);
 set(gca,'xticklabel',x_label);
 set(gca,'ytick',0:32:128);
 set(gca,'yticklabel',y_label);
+ax = gca;
+ax.FontSize = 14;
 % tightfig
 
 % caxis([-10,10])

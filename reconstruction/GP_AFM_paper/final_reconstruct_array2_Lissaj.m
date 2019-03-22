@@ -8,48 +8,62 @@
 
 clear
 close all
-clc
+% clc
 % opt='GP';
 opt='DT';
 load('array2_GP.mat')
-set(0,'DefaultFigureWindowStyle','docked') 
-figure
-surf(array);colormap(jet)
-% view([0 -90])
+% set(0,'DefaultFigureWindowStyle','docked') 
+%%
+figure;     % truth
+surf(array,'EdgeColor','none');
+colormap(jet)
 axis equal
-xlim([1,128]);ylim([1,128]);zlim([-50,40]);
-xlabel('x1');ylabel('x2');view(3)
+zlim([-40,40]);
+xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
+% view(3)
+view(-45,50)
+x_label=cell(1,length(0:32:128));
+for i=1:length(0:32:128)
+    x_label{i}=32*(i-1)/128*2;
+end
+set(gca,'xtick',0:32:128,'xticklabel',x_label);
+set(gca,'ytick',0:32:128,'yticklabel',x_label);
+set(gca,'ztick',[-40,0,40],'zticklabel',[-40,0,40])
+set(gca,'FontSize',18,'FontName', 'Times New Roman');
+set_fig_units_cm(12,10)
+set(gca, 'Position', get(gca, 'OuterPosition') - get(gca, 'TightInset') * [-1 0 1 0; 0 -1 0 1; 0 0 1 0; 0 0 0 1]);
 
 %% Lissajous scan trajectory
 X0=64;Y0=64;
 A=128;B=128;    % A,B represent the range of X,Y respectively
-fx=41;fy=43;
+fx=25;fy=26;
 % fx=27;fy=25;
 f=5000;
 T=1;  %T = lsm(fx,fy)/(fx*fy)
 t=(0:1/f:T)';
 x1_train_lisaj=X0+A/2*sin(2*pi*fx*t);
 x2_train_lisaj=Y0+B/2*sin(2*pi*fy*t);
-figure
-plot(x1_train_lisaj,x2_train_lisaj,'+')
-axis equal
-axis ([0 128 0 128])
-grid on
-hold on;plot(x1_train_lisaj,x2_train_lisaj)
+% figure
+% plot(x1_train_lisaj,x2_train_lisaj,'+')
+% axis equal
+% axis ([0 128 0 128])
+% grid on
+% hold on;plot(x1_train_lisaj,x2_train_lisaj)
 
 %% data preparation
 % train set
 X_train_lisaj=[x1_train_lisaj(:),x2_train_lisaj(:)];
 [y_train_lisaj,y_t_s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_train_lisaj);
-% visualization
-figure
-[x_temp,y_temp,z_temp]=griddata(x1_train_lisaj,x2_train_lisaj,y_train_lisaj,linspace(min(x1_train_lisaj),max(x1_train_lisaj))',linspace(min(x2_train_lisaj),max(x2_train_lisaj)),'v4');
-surf(x_temp,y_temp,z_temp)
-colormap(jet)
-hold on;plot(x1_train_lisaj,x2_train_lisaj,'+')
-axis equal
-axis ([0 128 0 128])
-plot(x1_train_lisaj,x2_train_lisaj)
+
+% figure  % visualization
+% [x_temp,y_temp,z_temp]=griddata(x1_train_lisaj,x2_train_lisaj,y_train_lisaj,linspace(min(x1_train_lisaj),max(x1_train_lisaj))',linspace(min(x2_train_lisaj),max(x2_train_lisaj)),'v4');
+% surf(x_temp,y_temp,z_temp)
+% colormap(jet)
+% hold on;plot(x1_train_lisaj,x2_train_lisaj,'+')
+% axis equal
+% axis ([0 128 0 128])
+% plot(x1_train_lisaj,x2_train_lisaj)
+
 % approximate path
 path_len=sum(sqrt((x1_train_lisaj(2:end)-x1_train_lisaj(1:(end-1))).^2+(x2_train_lisaj(2:end)-x2_train_lisaj(1:(end-1))).^2))
 
@@ -73,15 +87,16 @@ xlabel('x_1/\mum');ylabel('x_2/\mum');zlabel('y/nm');
 % view(3)
 view(-45,50)
 x_label=cell(1,length(0:32:128));
-for i=1:length(0:32:128)
-    x_label{i}=32*(i-1)/128*2;
+for i=1:length(0:64:128)
+    x_label{i}=64*(i-1)/128*2;
 end
-set(gca,'xtick',0:32:128);
-set(gca,'xticklabel',x_label);
-set(gca,'ytick',0:32:128);
-set(gca,'yticklabel',x_label);
-% tightfig
-set_fig_units_cm(10,10)
+set(gca,'xtick',0:64:128,'xticklabel',x_label);
+set(gca,'ytick',0:64:128,'yticklabel',x_label);
+set(gca,'ztick',[-40,0,40],'zticklabel',[-40,0,40])
+set(gca,'FontSize',18,'FontName', 'Times New Roman');
+set_fig_units_cm(12,10)
+set(gca, 'Position', get(gca, 'OuterPosition') - get(gca, 'TightInset') * [-1 0 1 0; 0 -1 0 1; 0 0 1 0; 0 0 0 1]);
+
 %% GP regression/DT linear interplotation
 switch opt
     case 'GP'
@@ -122,14 +137,13 @@ x_label=cell(1,length(0:32:128));
 for i=1:length(0:32:128)
     x_label{i}=32*(i-1)/128*2;
 end
-set(gca,'xtick',0:32:128);
-set(gca,'xticklabel',x_label);
-set(gca,'ytick',0:32:128);
-set(gca,'yticklabel',x_label);
-ax = gca;
-ax.FontSize = 14;
-% tightfig
-set_fig_units_cm(10,10)
+set(gca,'xtick',0:32:128,'xticklabel',x_label);
+set(gca,'ytick',0:32:128,'yticklabel',x_label);
+set(gca,'ztick',[-40,0,40],'zticklabel',[-40,0,40])
+set(gca,'FontSize',18,'FontName', 'Times New Roman');
+set_fig_units_cm(12,10)
+set(gca, 'Position', get(gca, 'OuterPosition') - get(gca, 'TightInset') * [-1 0 1 0; 0 -1 0 1; 0 0 1 0; 0 0 0 1]);
+
 %% Error analysis
 range=max(array(:))-min(array(:))
 % NRMSD=sqrt(sum(m-y_test_ideal(:)).^2)/range
@@ -142,6 +156,8 @@ max(abs(m_a(:)-y_test_ideal(:)))
 PSNR=max(y_test_ideal(:))*sqrt(size(y_test_ideal,1)*size(y_test_ideal,2))/sqrt(sum((m_a(:)-y_test_ideal(:)).^2));
 PSNR=20*log(PSNR)/log(10)
 
+RMS = sqrt(1/(size(y_test_ideal,1)*size(y_test_ideal,2))*sum((m_a(:)-y_test_ideal(:)).^2))
+
 sigma = sqrt(sum(s2(:))/length(s2(:)))
 %%
 figure
@@ -151,24 +167,15 @@ colormap(jet)
 view([-90 90])
 axis tight
 xlabel('x_1/\mum');ylabel('x_2/\mum');
-x_label=cell(1,length(0:32:128));
-y_label=cell(1,length(0:32:128));
-for i=1:length(0:32:128)
-    x_label{i}=32*(i-1)/128*2;
-end
-for i=1:length(0:32:128)
-    y_label{length(0:32:128)+1-i}=32*(i-1)/128*2;
-end
-set(gca,'xtick',0:32:128);
-set(gca,'xticklabel',x_label);
-set(gca,'ytick',0:32:128);
-set(gca,'yticklabel',y_label);
-ax = gca;
-ax.FontSize = 14;
-% tightfig
+
+set(gca, 'xtick', [], 'xticklabel', []);
+set(gca, 'ytick', [], 'yticklabel', []);
+set(gca,'FontSize',18,'FontName', 'Times New Roman');
 
 % caxis([-10,10])
 caxis([-5,5])
 colorbar('eastoutside')
-% set(gca,'CLim',[-10,10])
 
+set_fig_units_cm(12,10)
+set(gca, 'Position', get(gca, 'OuterPosition') - get(gca, 'TightInset') * [-1.2 0 1.5 0; 0 -1.2 0 1.5; 0 0 1 0; 0 0 0 1]);
+set(gca,'FontSize',24,'FontName', 'Times New Roman');

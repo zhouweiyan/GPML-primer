@@ -7,7 +7,8 @@ clear
 % clc
 
 % individual example
-% Obj = imread('Corrosion.bmp'); f = rgb2gray(double(Obj)/255)*255; f = f(373:500,1:128);
+% Obj = imread('Corrosion.bmp');
+f = rgb2gray(double(Obj)/255)*255; f = f(373:500,1:128);
 % Obj = imread('LithiumTitanate.bmp'); f = rgb2gray(double(Obj)/255)*255; f = f(1:128,1:128);
 % Obj = imread('Bi_SN_alloy_216.bmp'); f = rgb2gray(double(Obj)/255)*255; f = f(end-128+1:end,1:128);       
 % Obj = imread('F12H20 on MoS2_128.bmp'); f = rgb2gray(double(Obj)/255)*255; f = f(end-128+1:end,1:128);

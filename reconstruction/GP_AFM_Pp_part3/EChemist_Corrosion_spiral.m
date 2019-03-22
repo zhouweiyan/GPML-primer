@@ -1,20 +1,18 @@
 % reconstruct complex morphology
 % spiral
-% zwy 20190131
+% to enlarge the visual contrast
+% zwy 20190223
 
 clear
-close all
-clc
-load EChemist_Corrosion_GP.mat
+% close all
+% clc
+load('E:\OneDrive - hnu.edu.cn\tools\matlabcourse\GPML_matlab\GPML-primer\reconstruction\GP_AFM_Pp_part3\result\EChemist_Corrosion_GP.mat')
 % opt='GP';
 opt='DT'; 
-figure, surf(f, 'EdgeColor', 'None'); 
-colormap(jet); axis equal; 
-xlabel('x1'); ylabel('x2'); view([0 -90])
 %% data preparation
 % train set
 r_end = 64*1.6;     % cover the square of 128*128 pixels
-P = r_end*2/(64-1); % P = spiral radius¡Á2/(number of curves-1) eq.(4)
+P = r_end*2/(52-1); % P = spiral radius¡Á2/(number of curves-1) eq.(4)
 w = 120;
 f = 3000;           % inversely proportional to the number of sampling points
 T = 1/f;
@@ -26,7 +24,8 @@ x1_train_spi=xs';x2_train_spi=ys';
 X_train_spi=[x1_train_spi(:),x2_train_spi(:)];
 [y_train_spi,y_t_s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_train_spi);
 % approximate path
-path_len=sum(sqrt((x1_train_spi(2:end)-x1_train_spi(1:(end-1))).^2+(x2_train_spi(2:end)-x2_train_spi(1:(end-1))).^2))
+path_len=sum(sqrt((x1_train_spi(2:end)-x1_train_spi(1:(end-1))).^2+(x2_train_spi(2:end)-x2_train_spi(1:(end-1))).^2));
+delta = path_len/(2*128*128)
 
 % test set
 x1_test=1:128;x2_test=1:128;
@@ -34,12 +33,16 @@ x1_test=1:128;x2_test=1:128;
 X_test=[X1_test(:),X2_test(:)];
 [y_test_ideal,y_test_s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train,y_train,X_test);
 y_test_ideal=reshape(y_test_ideal,length(x2_test),length(x1_test));
+
+figure, surf(y_test_ideal, 'EdgeColor', 'None');        
+colormap(jet); axis equal; axis off;
+xlabel('x1'); ylabel('x2'); view([0 -90])
 %% GP regression/DT linear interplotation
 switch opt
     case 'GP'
         meanfunc = []; hyp.mean = [];
-        covfunc = {'covSEard'}; hyp.cov = log([5;7;9]);
-        likfunc = {'likGauss'}; hyp.lik = log(0.1);
+        covfunc = {'covSEard'}; hyp.cov = log([4;3;90]);
+        likfunc = {'likGauss'}; hyp.lik = log(4);
         hyp=minimize(hyp,@gp,-80,@infGaussLik,meanfunc,covfunc,likfunc,X_train_spi,y_train_spi);
         [m,s2]=gp(hyp,@infGaussLik,meanfunc,covfunc,likfunc,X_train_spi,y_train_spi,X_test);
     case 'DT'

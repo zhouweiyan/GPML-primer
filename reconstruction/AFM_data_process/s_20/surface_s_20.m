@@ -58,7 +58,8 @@ m = reshape(m_denoise,length(x2_test),length(x1_test));
 m(nan_flags) = NaN; % circular roi
 figure,surf(X1_test./0.04*3,X2_test./0.04*3,reshape(m.*10^4,length(x2_test./0.04*3),length(x1_test./0.04*3)),'EdgeColor','none')
 colormap(copper)
-axis equal; axis('off'); xlabel('x'); ylabel('y'); view([0 -90])
+axis equal; %axis('off'); 
+xlabel('x'); ylabel('y'); view([0 -90])
 caxis([0 21.6]);
 tightfig
 set_fig_units_cm(10,10)
@@ -70,8 +71,7 @@ m = m(:)*10^4;
 nan_flags = isnan(m);   % 1D NaN detector
 m(nan_flags) = []; X1_test_vec(nan_flags) = []; X2_test_vec(nan_flags) = [];
 x = X1_test_vec/0.04*3; y = X2_test_vec/0.04*3;
-save s20_processed_delete_NaN.mat x y m
-
+% save s20_processed_delete_NaN.mat x y m
 
 
 
